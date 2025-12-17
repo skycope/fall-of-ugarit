@@ -1,0 +1,57 @@
+---
+import Section from '../ui/Section.astro';
+import FadeIn from '../interactive/FadeIn.jsx';
+---
+
+<Section id="author" background="white" padding="xl">
+  <div class="max-w-6xl mx-auto">
+    <div class="grid lg:grid-cols-5 gap-12 lg:gap-16 items-center">
+      <!-- Author Image -->
+      <FadeIn client:visible direction="right" class="lg:col-span-2">
+        <div class="relative mx-auto max-w-sm">
+          <div class="absolute -inset-4 bg-gradient-to-br from-gold/20 to-transparent rounded-full blur-2xl"></div>
+          <img
+            src="/assets/author.png"
+            alt="Michael Cope"
+            class="relative w-full aspect-square object-cover rounded-full shadow-xl border-4 border-cream"
+          />
+        </div>
+      </FadeIn>
+
+      <!-- Author Bio -->
+      <div class="lg:col-span-3">
+        <FadeIn client:visible>
+          <p class="text-gold font-medium tracking-widest uppercase text-sm mb-4">
+            About the Author
+          </p>
+        </FadeIn>
+
+        <FadeIn client:visible delay={0.1}>
+          <h2 class="font-serif text-4xl md:text-5xl font-medium mb-8 leading-tight">
+            Michael Cope
+          </h2>
+        </FadeIn>
+
+        <div class="space-y-6 text-ink/70 leading-relaxed">
+          <FadeIn client:visible delay={0.2}>
+            <p class="text-lg">
+              Michael Cope is widely regarded as one of South Africa's finest poets. His work has earned critical acclaim for its precision, depth, and ability to find the extraordinary in the ordinary.
+            </p>
+          </FadeIn>
+
+          <FadeIn client:visible delay={0.3}>
+            <p>
+              <em>The Fall of Ugarit</em> marks a departure into prose, bringing his poetic sensibility to the novella form. The result is "pared down work, lucid and calm"—a meditation that moves between the mythic and the intimate.
+            </p>
+          </FadeIn>
+
+          <FadeIn client:visible delay={0.4}>
+            <p>
+              He lives and writes in the Western Cape, South Africa, where the landscapes of False Bay continue to inform his work.
+            </p>
+          </FadeIn>
+        </div>
+      </div>
+    </div>
+  </div>
+</Section>

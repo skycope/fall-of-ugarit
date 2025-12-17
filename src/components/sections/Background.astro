@@ -1,0 +1,81 @@
+---
+import Section from '../ui/Section.astro';
+import FadeIn from '../interactive/FadeIn.jsx';
+---
+
+<Section id="background" background="white" padding="xl">
+  <div class="max-w-6xl mx-auto">
+    <div class="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+      <!-- Images Grid -->
+      <FadeIn client:visible direction="left" class="order-2 lg:order-1">
+        <div class="grid grid-cols-2 gap-4">
+          <div class="space-y-4">
+            <img
+              src="/assets/chariot.jpg"
+              alt="Ancient chariot artifact"
+              class="w-full h-48 object-cover rounded-lg shadow-md"
+            />
+            <img
+              src="/assets/lyre.jpg"
+              alt="Ancient lyre"
+              class="w-full h-32 object-cover rounded-lg shadow-md"
+            />
+          </div>
+          <div class="space-y-4 pt-8">
+            <img
+              src="/assets/bottle.jpg"
+              alt="Ancient vessel"
+              class="w-full h-32 object-cover rounded-lg shadow-md"
+            />
+            <img
+              src="/assets/asherah.png"
+              alt="Asherah figure"
+              class="w-full h-48 object-cover rounded-lg shadow-md"
+            />
+          </div>
+        </div>
+      </FadeIn>
+
+      <!-- Text Content -->
+      <div class="order-1 lg:order-2">
+        <FadeIn client:visible>
+          <p class="text-gold font-medium tracking-widest uppercase text-sm mb-4">
+            Historical Context
+          </p>
+        </FadeIn>
+
+        <FadeIn client:visible delay={0.1}>
+          <h2 class="font-serif text-4xl md:text-5xl font-medium mb-8 leading-tight">
+            The Ancient City of Ugarit
+          </h2>
+        </FadeIn>
+
+        <div class="space-y-6 text-ink/70 leading-relaxed">
+          <FadeIn client:visible delay={0.2}>
+            <p>
+              Ugarit was a thriving port city on the Mediterranean coast of what is now Syria. At its height around 1200 BCE, it was a cosmopolitan center of trade, culture, and religion.
+            </p>
+          </FadeIn>
+
+          <FadeIn client:visible delay={0.3}>
+            <p>
+              The city gave us the Ugaritic alphabet—one of the earliest alphabetic scripts—and clay tablets containing myths that would profoundly influence the religions of the ancient Near East, including stories of El and Asherah, the divine couple.
+            </p>
+          </FadeIn>
+
+          <FadeIn client:visible delay={0.4}>
+            <p>
+              Around 1185 BCE, Ugarit was destroyed—likely by the mysterious "Sea Peoples"—and never rebuilt. The city lay buried and forgotten for three thousand years until its rediscovery in 1928.
+            </p>
+          </FadeIn>
+
+          <FadeIn client:visible delay={0.5}>
+            <p class="text-lg font-medium text-ink">
+              In this novella, the fall of Ugarit becomes a mirror for the collapse of love itself.
+            </p>
+          </FadeIn>
+        </div>
+      </div>
+    </div>
+  </div>
+</Section>

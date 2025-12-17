@@ -1,0 +1,47 @@
+---
+import Section from '../ui/Section.astro';
+import TextReveal from '../interactive/TextReveal.jsx';
+import FadeIn from '../interactive/FadeIn.jsx';
+---
+
+<Section id="synopsis" padding="xl">
+  <div class="max-w-4xl mx-auto">
+    <FadeIn client:visible>
+      <p class="text-gold font-medium tracking-widest uppercase text-sm mb-4 text-center">
+        The Story
+      </p>
+    </FadeIn>
+
+    <h2 class="font-serif text-4xl md:text-5xl lg:text-6xl font-medium text-center mb-12 leading-tight">
+      <TextReveal client:visible>
+        Two timelines. Two loves. One ancient truth.
+      </TextReveal>
+    </h2>
+
+    <div class="prose prose-lg md:prose-xl mx-auto text-ink/80 leading-relaxed">
+      <FadeIn client:visible delay={0.2}>
+        <p class="text-xl md:text-2xl leading-relaxed mb-8">
+          The novella moves between two worlds: a fictional contemporary False Bay, and the ancient city of Ugarit on the Levantine coast, some six thousand years ago.
+        </p>
+      </FadeIn>
+
+      <FadeIn client:visible delay={0.3}>
+        <p class="mb-6">
+          In the present, Eliot—an old man recovering from a stroke—believes himself to be God. He sees everything: past, present, future, every thought of every living thing. Until he meets a woman called D, a blind spot in his omniscience. Through caring for her, he learns how love lies in care.
+        </p>
+      </FadeIn>
+
+      <FadeIn client:visible delay={0.4}>
+        <p class="mb-6">
+          In the past, two people who believe they are El and Asherah—the great Levantine deities—act out their mythic relationship. When their love falls apart, so does the ancient city they inhabit.
+        </p>
+      </FadeIn>
+
+      <FadeIn client:visible delay={0.5}>
+        <p class="text-lg italic text-ink/60 border-l-2 border-gold/40 pl-6 my-10">
+          "A meditation on what it means to truly know another person—and whether anyone, even a god, can claim such knowledge."
+        </p>
+      </FadeIn>
+    </div>
+  </div>
+</Section>

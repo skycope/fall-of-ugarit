@@ -1,0 +1,136 @@
+---
+import Section from '../ui/Section.astro';
+import Button from '../ui/Button.astro';
+import FadeIn from '../interactive/FadeIn.jsx';
+
+// PAYMENT CONFIGURATION
+// Uncomment and configure one of these options:
+
+// Option 1: Yoco
+// Add your Yoco inline checkout script and public key
+// const yocoPublicKey = 'pk_live_xxxxx';
+
+// Option 2: PayFast
+// const payfastMerchantId = 'xxxxx';
+// const payfastMerchantKey = 'xxxxx';
+
+// Option 3: Snapscan
+// const snapscanCode = 'your-snapscan-code';
+
+// Book details
+const bookPrice = 'R180'; // Update as needed
+const bookTitle = 'The Fall of Ugarit';
+---
+
+<Section id="buy" padding="xl">
+  <div class="max-w-4xl mx-auto text-center">
+    <FadeIn client:visible>
+      <p class="text-gold font-medium tracking-widest uppercase text-sm mb-4">
+        Get Your Copy
+      </p>
+    </FadeIn>
+
+    <FadeIn client:visible delay={0.1}>
+      <h2 class="font-serif text-4xl md:text-5xl lg:text-6xl font-medium mb-6 leading-tight">
+        Order <em>The Fall of Ugarit</em>
+      </h2>
+    </FadeIn>
+
+    <FadeIn client:visible delay={0.2}>
+      <p class="text-ink/70 text-lg md:text-xl max-w-2xl mx-auto mb-8">
+        Available now in print. Delivered to your door anywhere in South Africa.
+      </p>
+    </FadeIn>
+
+    <FadeIn client:visible delay={0.3}>
+      <div class="bg-white rounded-2xl p-8 md:p-12 shadow-lg border border-ink/5 max-w-xl mx-auto">
+        <!-- Book Preview -->
+        <div class="flex items-center justify-center gap-6 mb-8">
+          <img
+            src="/assets/book-cover.png"
+            alt="The Fall of Ugarit"
+            class="w-24 h-auto shadow-lg"
+          />
+          <div class="text-left">
+            <h3 class="font-serif text-2xl font-medium">{bookTitle}</h3>
+            <p class="text-ink/60">by Michael Cope</p>
+            <p class="text-3xl font-semibold text-ink mt-2">{bookPrice}</p>
+          </div>
+        </div>
+
+        <!-- Payment Options -->
+        <div class="space-y-4">
+          <!-- Primary CTA - Replace href with your payment link -->
+          <Button
+            href="mailto:order@example.com?subject=Order: The Fall of Ugarit&body=I would like to order a copy of The Fall of Ugarit."
+            variant="primary"
+            size="lg"
+            class="w-full"
+          >
+            Order Now
+          </Button>
+
+          <!-- Alternative payment methods -->
+          <p class="text-sm text-ink/50 pt-4">
+            Secure payment via EFT, Snapscan, or card
+          </p>
+
+          <!-- Payment icons placeholder -->
+          <div class="flex items-center justify-center gap-4 pt-2 opacity-50">
+            <span class="text-xs uppercase tracking-wide">Visa</span>
+            <span class="text-xs uppercase tracking-wide">Mastercard</span>
+            <span class="text-xs uppercase tracking-wide">Snapscan</span>
+            <span class="text-xs uppercase tracking-wide">EFT</span>
+          </div>
+        </div>
+
+        <!-- Delivery Info -->
+        <div class="mt-8 pt-6 border-t border-ink/10">
+          <p class="text-sm text-ink/60">
+            <strong>Delivery:</strong> Nationwide delivery via courier or PUDO lockers.
+            <br />
+            Orders typically ship within 2-3 business days.
+          </p>
+        </div>
+      </div>
+    </FadeIn>
+
+    <!-- Contact for bulk orders -->
+    <FadeIn client:visible delay={0.4}>
+      <p class="mt-8 text-sm text-ink/50">
+        For bulk orders or enquiries, please <a href="mailto:contact@example.com" class="text-gold hover:underline">get in touch</a>.
+      </p>
+    </FadeIn>
+  </div>
+</Section>
+
+<!--
+  PAYMENT INTEGRATION NOTES:
+
+  1. YOCO (Recommended for SA)
+     - Sign up at yoco.com
+     - Use their inline checkout or payment link
+     - Replace the Button href with Yoco payment link
+
+  2. PAYFAST
+     - Sign up at payfast.co.za
+     - Use their payment button or hosted checkout
+     - Good for EFT, card, and instant EFT
+
+  3. SNAPSCAN
+     - Contact Snapscan for merchant account
+     - Can display QR code for mobile payments
+
+  4. SIMPLE OPTION (Current setup)
+     - Use email orders with manual EFT
+     - Customer emails order, you send bank details
+     - Good for low volume while setting up
+
+  To integrate Yoco inline checkout, add this script:
+  <script src="https://js.yoco.com/sdk/v1/yoco-sdk-web.js"></script>
+
+  Then create a payment form that initializes:
+  var yoco = new window.YocoSDK({
+    publicKey: 'your_public_key'
+  });
+-->

@@ -1,0 +1,45 @@
+---
+import Section from '../ui/Section.astro';
+import FadeIn from '../interactive/FadeIn.jsx';
+---
+
+<Section id="sample" padding="xl">
+  <div class="max-w-3xl mx-auto">
+    <FadeIn client:visible>
+      <p class="text-gold font-medium tracking-widest uppercase text-sm mb-4 text-center">
+        An Excerpt
+      </p>
+    </FadeIn>
+
+    <FadeIn client:visible delay={0.1}>
+      <h2 class="font-serif text-4xl md:text-5xl font-medium text-center mb-12 leading-tight">
+        From the Opening
+      </h2>
+    </FadeIn>
+
+    <FadeIn client:visible delay={0.2}>
+      <div class="bg-white rounded-2xl p-8 md:p-12 shadow-sm border border-ink/5">
+        <blockquote class="font-serif text-xl md:text-2xl leading-relaxed text-ink/80 space-y-6">
+          <p>
+            'To look at it,' the narrator Eliot tells us, 'I'm an old man, conservatively dressed.'
+          </p>
+          <p>
+            A year or so before we're introduced to Eliot, he had a stroke. Since then he knows that he is the one true creator God.
+          </p>
+          <p>
+            The story takes place (half the time) during Covid lockdown in a seaside suburb of surfers and beggars. One day, a woman enters a place where people who can no longer afford to feed themselves go for a lunch of soup and bread.
+          </p>
+          <p>
+            Eliot can't 'see' her the way he sees the rest of the world. She is a blind spot to him while everything else—the past, the future, the present, every human and plant and animal's life and thoughts—can be seen by Eliot.
+          </p>
+        </blockquote>
+
+        <div class="mt-8 pt-8 border-t border-ink/10 text-center">
+          <p class="text-ink/50 text-sm">
+            Continue reading in the full novella...
+          </p>
+        </div>
+      </div>
+    </FadeIn>
+  </div>
+</Section>
