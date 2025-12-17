@@ -6,26 +6,72 @@
 
 @layer base {
   html {
-    @apply bg-cream text-ink antialiased;
+    @apply bg-deep-blue text-light-blue antialiased;
     scroll-behavior: smooth;
   }
 
   body {
-    @apply font-sans leading-relaxed;
+    @apply font-sans leading-relaxed overflow-x-hidden;
+    background: linear-gradient(180deg, #153b9d 0%, #2c55cc 30%, #1e4bb8 70%, #153b9d 100%);
+    background-attachment: fixed;
   }
 
   h1, h2, h3, h4 {
-    @apply font-serif tracking-tight;
+    @apply font-serif tracking-tight text-gold;
   }
 
   ::selection {
-    @apply bg-gold/30;
+    @apply bg-gold/30 text-deep-blue;
   }
 }
 
 @layer components {
   .text-balance {
     text-wrap: balance;
+  }
+
+  /* Animated paint stroke */
+  .paint-stroke {
+    background: linear-gradient(90deg,
+      transparent 0%,
+      #ffb102 5%,
+      #ffc942 15%,
+      #ffb102 50%,
+      #e6a000 85%,
+      #ffb102 95%,
+      transparent 100%
+    );
+    clip-path: polygon(
+      0% 20%, 2% 40%, 0% 60%, 3% 80%, 0% 100%,
+      100% 100%, 97% 80%, 100% 60%, 98% 40%, 100% 20%, 100% 0%, 0% 0%
+    );
+  }
+
+  /* Ocean wave texture overlay */
+  .ocean-texture {
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.015' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    opacity: 0.08;
+    mix-blend-mode: overlay;
+  }
+
+  /* Draw animation for SVG paths */
+  .draw-path {
+    stroke-dasharray: 1000;
+    stroke-dashoffset: 1000;
+  }
+
+  .draw-path.animate {
+    animation: drawPath 2s ease-out forwards;
+  }
+
+  /* Image reveal mask */
+  .reveal-mask {
+    clip-path: inset(100% 0 0 0);
+    transition: clip-path 1.2s cubic-bezier(0.77, 0, 0.175, 1);
+  }
+
+  .reveal-mask.revealed {
+    clip-path: inset(0 0 0 0);
   }
 }
 
@@ -48,4 +94,28 @@ html.lenis, html.lenis body {
 
 .lenis.lenis-scrolling iframe {
   pointer-events: none;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #153b9d;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #ffb102;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #ffc942;
+}
+
+@keyframes drawPath {
+  to {
+    stroke-dashoffset: 0;
+  }
 }
