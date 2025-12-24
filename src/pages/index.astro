@@ -338,61 +338,57 @@ import '../styles/global.css';
       z-index: 1;
     }
 
-    /* Book panel decorations */
+    /* Book panel decorations - tern in sky */
     .decoration-tern {
-      width: 200px;
-      top: 5%;
-      right: 3%;
-      opacity: 0.25;
-    }
-
-    .decoration-ibis {
-      width: 180px;
-      bottom: 18%;
-      left: 3%;
-      opacity: 0.22;
+      width: 100px;
+      top: 3%;
+      left: 6%;
+      opacity: 0.5;
     }
 
     /* Hero section decorations */
     .hero-content {
-      overflow: hidden;
+      overflow: visible;
     }
 
-    .decoration-crow-hero {
-      width: 100px;
+    /* Ibis - top right, aligned vertically with tern */
+    .decoration-ibis {
+      width: 140px;
       top: 3%;
-      right: 3%;
-      opacity: 0.18;
+      right: 7%;
+      opacity: 0.5;
     }
 
-    .decoration-chariot {
-      width: 180px;
-      bottom: 3%;
-      right: 0;
-      opacity: 0.16;
+    /* Crow - bottom right, aligned with other right elements */
+    .decoration-crow-hero {
+      width: 80px;
+      bottom: 14%;
+      right: 7%;
+      opacity: 0.45;
+    }
+
+    /* Asherah - right side, vertically centered, aligned */
+    .decoration-asherah {
+      width: 90px;
+      top: 40%;
+      right: 7%;
+      opacity: 0.4;
     }
 
     /* Praise section decorations */
     .decoration-shells {
-      width: 100px;
-      bottom: 20%;
-      right: 3%;
-      opacity: 0.18;
-    }
-
-    .decoration-asherah {
-      width: 70px;
-      top: 20%;
-      left: 3%;
-      opacity: 0.14;
+      width: 120px;
+      bottom: 12%;
+      right: 5%;
+      opacity: 0.4;
     }
 
     /* Author section decorations */
     .decoration-lyre {
-      width: 70px;
-      bottom: 20%;
-      right: 3%;
-      opacity: 0.15;
+      width: 85px;
+      bottom: 3rem;
+      left: 4.5rem;
+      opacity: 0.4;
     }
 
     /* ===== MOBILE ===== */
@@ -471,15 +467,15 @@ import '../styles/global.css';
         ></canvas>
       </div>
       <img src="/assets/tern-white.png" alt="" class="decoration decoration-tern" />
-      <img src="/assets/ibis-white.png" alt="" class="decoration decoration-ibis" />
       <p class="drag-hint">drag to explore</p>
     </div>
 
     <!-- SCROLLING CONTENT -->
     <div class="content-panel">
       <section class="content-section hero-content">
+        <img src="/assets/ibis-white.png" alt="" class="decoration decoration-ibis" />
         <img src="/assets/crow-white.png" alt="" class="decoration decoration-crow-hero" />
-        <img src="/assets/chariot-white.png" alt="" class="decoration decoration-chariot" />
+        <img src="/assets/asherah-white.png" alt="" class="decoration decoration-asherah" />
         <h1>The Fall of Ugarit</h1>
         <p class="author">Michael Cope</p>
         <div class="divider"></div>
@@ -498,7 +494,6 @@ import '../styles/global.css';
 
       <section class="praise-section">
         <img src="/assets/shells-white.png" alt="" class="decoration decoration-shells" />
-        <img src="/assets/asherah-white.png" alt="" class="decoration decoration-asherah" />
         <div class="praise-grid">
           <div class="praise-item">
             <blockquote>Cope weaves a magical and transporting story that seems to see everything. This is pared down work, lucid and calm.</blockquote>
