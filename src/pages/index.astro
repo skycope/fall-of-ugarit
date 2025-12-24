@@ -1,333 +1,961 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import ScrollProgress from '../components/interactive/ScrollProgress.jsx';
-import FloatingElement from '../components/interactive/FloatingElement.jsx';
-import RevealImage from '../components/interactive/RevealImage.jsx';
-import PaintStroke from '../components/interactive/PaintStroke.jsx';
-import AnimatedText from '../components/interactive/AnimatedText.jsx';
-import ParallaxSection from '../components/interactive/ParallaxSection.jsx';
-import FadeIn from '../components/interactive/FadeIn.jsx';
+import '../styles/global.css';
 ---
 
-<Layout title="The Fall of Ugarit | A Novella by Michael Cope">
-  <ScrollProgress client:load />
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Fall of Ugarit | Michael Cope</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'EB Garamond', Georgia, serif;
+      background: #10265f;
+      color: #1a1a1a;
+      line-height: 1.7;
+      font-size: 18px;
+    }
 
-  <!-- Ocean texture overlay -->
-  <div class="fixed inset-0 ocean-texture pointer-events-none z-10"></div>
+    /* ===== MAIN LAYOUT ===== */
+    .page-wrapper {
+      display: grid;
+      grid-template-columns: 45% 55%;
+      min-height: 100vh;
+    }
 
-  <main class="relative">
-    <!-- SCENE 1: OPENING - Title emerges from the deep -->
-    <section class="relative min-h-screen flex items-center justify-center overflow-hidden">
-      <!-- Floating birds in background -->
-      <FloatingElement client:visible className="absolute top-20 left-[10%] w-24 opacity-60" speed={0.3} direction="up" delay={0.5}>
-        <img src="/assets/crow.jpg" alt="" class="w-full rounded-full shadow-2xl" />
-      </FloatingElement>
+    /* ===== STICKY BOOK PANEL ===== */
+    .book-panel {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      background: #10265f;
+      overflow: hidden;
+    }
 
-      <FloatingElement client:visible className="absolute top-32 right-[15%] w-20 opacity-50" speed={0.4} direction="up" rotate delay={0.8}>
-        <img src="/assets/tern.jpg" alt="" class="w-full rounded-full shadow-2xl" />
-      </FloatingElement>
+    .book-scene {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 2;
+    }
 
-      <div class="relative z-20 text-center px-6">
-        <FadeIn client:visible delay={0.2}>
-          <p class="text-gold/80 text-sm tracking-[0.3em] uppercase mb-6">
-            A Novella by
-          </p>
-        </FadeIn>
+    .book-canvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
 
-        <AnimatedText
-          client:visible
-          element="h1"
-          className="font-serif text-6xl md:text-8xl lg:text-9xl font-medium tracking-tight mb-4"
-          delay={0.4}
-          stagger={0.08}
-        >
-          MICHAEL COPE
-        </AnimatedText>
+    /* ===== SCROLLING CONTENT ===== */
+    .content-panel {
+      background: #10265f;
+    }
 
-        <FadeIn client:visible delay={1.2}>
-          <div class="mt-12">
-            <p class="text-light-blue/60 text-lg italic">Scroll to enter the story</p>
-            <div class="mt-4 animate-bounce">
-              <svg class="w-6 h-6 mx-auto text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
-              </svg>
+    .content-section {
+      padding: 2.5rem 3rem 3rem 2.5rem;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    /* Hero content */
+    .hero-content {
+      color: #fff;
+      position: relative;
+    }
+
+    .hero-content h1 {
+      font-family: 'Crimson Text', Georgia, serif;
+      font-size: 3.5rem;
+      font-weight: 600;
+      color: #ffb102;
+      margin-bottom: 0.15rem;
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+    }
+
+    .hero-content .author {
+      font-family: 'EB Garamond', Georgia, serif;
+      font-size: 1.35rem;
+      color: #d4dff9;
+      margin-bottom: 0.8rem;
+      letter-spacing: 0.02em;
+    }
+
+    .divider {
+      width: 50px;
+      height: 2px;
+      background: #ffb102;
+      margin-bottom: 1rem;
+    }
+
+    .synopsis {
+      font-size: 1.1rem;
+      line-height: 1.75;
+      color: #d4dff9;
+      margin-bottom: 1.25rem;
+      max-width: 500px;
+    }
+
+    .synopsis p {
+      margin-bottom: 0.7rem;
+    }
+
+    /* Buy block */
+    .buy-block {
+      display: inline-flex;
+      align-items: center;
+      gap: 1.25rem;
+      padding: 0.75rem 1.25rem 0.75rem 0;
+      border-top: 1px solid rgba(255,255,255,0.12);
+      margin-top: 0.5rem;
+    }
+
+    .price-group {
+      display: flex;
+      align-items: baseline;
+      gap: 0.5rem;
+    }
+
+    .price {
+      font-family: 'Crimson Text', Georgia, serif;
+      font-size: 1.8rem;
+      color: #ffb102;
+      letter-spacing: -0.02em;
+    }
+
+    .price-label {
+      font-size: 0.95rem;
+      color: #d4dff9;
+      opacity: 0.5;
+      margin-right: 0.5rem;
+    }
+
+    .buy-btn {
+      padding: 0.7rem 1.6rem;
+      background: #ffb102;
+      color: #153b9d;
+      font-family: 'EB Garamond', Georgia, serif;
+      font-weight: 600;
+      font-size: 1.05rem;
+      border-radius: 3px;
+      text-decoration: none;
+      transition: all 0.2s;
+      letter-spacing: 0.02em;
+    }
+
+    /* Scroll indicator */
+    .scroll-indicator {
+      position: absolute;
+      bottom: 1.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.4rem;
+      color: rgba(255,255,255,0.7);
+      font-size: 0.85rem;
+      animation: bounce 2s ease-in-out infinite;
+      cursor: pointer;
+      z-index: 10;
+    }
+
+    .scroll-indicator svg {
+      width: 28px;
+      height: 28px;
+      stroke: rgba(255,255,255,0.7);
+      stroke-width: 2.5;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(8px); }
+    }
+
+    /* Drag hint on book panel */
+    .drag-hint {
+      position: absolute;
+      bottom: 1.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      color: rgba(255,255,255,0.5);
+      font-size: 0.9rem;
+      letter-spacing: 0.04em;
+      pointer-events: none;
+      z-index: 10;
+    }
+
+    .buy-btn:hover {
+      background: #ffc942;
+      transform: translateY(-2px);
+    }
+
+    .buy-btn.outline {
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.3);
+      color: #fff;
+    }
+
+    .buy-btn.outline:hover {
+      border-color: #ffb102;
+      color: #ffb102;
+    }
+
+    .pub-info {
+      color: rgba(255, 255, 255, 0.4);
+      font-size: 0.85rem;
+      margin-top: 1rem;
+    }
+
+    /* Praise section - Stripe Press inspired */
+    .praise-section {
+      background: #0c1e4a;
+      min-height: auto;
+      padding: 4rem 3rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .praise-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      position: relative;
+      z-index: 2;
+    }
+
+    .praise-item {
+      padding-right: 2rem;
+    }
+
+    .praise-item blockquote {
+      font-size: 1.05rem;
+      line-height: 1.7;
+      color: rgba(255, 255, 255, 0.9);
+      margin-bottom: 1.25rem;
+    }
+
+    .praise-attribution {
+      padding-top: 1rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.15);
+    }
+
+    .praise-item .name {
+      font-weight: 600;
+      color: #fff;
+      font-size: 0.95rem;
+      margin-bottom: 0.2rem;
+    }
+
+    .praise-item .title {
+      color: rgba(255, 255, 255, 0.5);
+      font-size: 0.85rem;
+    }
+
+    /* Author section */
+    .author-section {
+      background: #0e2354;
+      min-height: auto;
+      padding: 4rem 3rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .author-grid {
+      display: flex;
+      gap: 2rem;
+      align-items: flex-start;
+      position: relative;
+      z-index: 2;
+    }
+
+    .author-photo {
+      width: 140px;
+      height: 140px;
+      border-radius: 4px;
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+
+    .author-bio h3 {
+      font-family: 'Crimson Text', Georgia, serif;
+      font-size: 1.5rem;
+      font-weight: 400;
+      margin-bottom: 1rem;
+      color: #fff;
+    }
+
+    .author-bio p {
+      font-size: 0.95rem;
+      line-height: 1.75;
+      color: rgba(255, 255, 255, 0.8);
+      max-width: 520px;
+      margin-bottom: 0.8rem;
+    }
+
+    .author-bio p:last-child {
+      margin-bottom: 0;
+    }
+
+    .author-bio strong {
+      color: #fff;
+    }
+
+    /* Footer */
+    .footer-section {
+      background: #091a3d;
+      min-height: auto;
+      padding: 2rem 3rem;
+      justify-content: center;
+    }
+
+    .footer-section p {
+      color: #d4dff9;
+      font-size: 0.85rem;
+      opacity: 0.6;
+    }
+
+    .footer-section .publisher {
+      margin-top: 0.5rem;
+      font-size: 0.8rem;
+      opacity: 0.4;
+    }
+
+    /* ===== DECORATIVE ILLUSTRATIONS ===== */
+    .decoration {
+      position: absolute;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* Book panel decorations */
+    .decoration-asherah {
+      width: 90px;
+      top: 12%;
+      left: 8%;
+      opacity: 0.2;
+    }
+
+    .decoration-tern {
+      width: 180px;
+      top: 8%;
+      right: 5%;
+      opacity: 0.22;
+    }
+
+    .decoration-ibis {
+      width: 160px;
+      bottom: 12%;
+      left: 8%;
+      opacity: 0.2;
+    }
+
+    /* Hero section decorations */
+    .hero-content {
+      overflow: hidden;
+    }
+
+    .decoration-lyre {
+      width: 65px;
+      bottom: 12%;
+      left: 5%;
+      opacity: 0.15;
+    }
+
+    .decoration-chariot {
+      width: 160px;
+      bottom: 8%;
+      right: 5%;
+      opacity: 0.14;
+    }
+
+    /* Praise section decorations */
+    .decoration-shells {
+      width: 110px;
+      bottom: 12%;
+      right: 8%;
+      opacity: 0.15;
+    }
+
+    .decoration-crow {
+      width: 90px;
+      top: 15%;
+      left: 5%;
+      opacity: 0.12;
+      transform: scaleX(-1);
+    }
+
+    /* Author section decorations */
+    .decoration-lyre-author {
+      width: 80px;
+      bottom: 15%;
+      right: 8%;
+      opacity: 0.12;
+    }
+
+    /* ===== MOBILE ===== */
+    @media (max-width: 900px) {
+      .page-wrapper {
+        grid-template-columns: 1fr;
+      }
+
+      .book-panel {
+        position: relative;
+        height: auto;
+        min-height: 60vh;
+        padding: 3rem 2rem;
+      }
+
+      .book-scene {
+        width: clamp(240px, 65vw, 360px);
+      }
+
+      .content-section,
+      .praise-section,
+      .author-section,
+      .footer-section {
+        padding: 3rem 2rem;
+      }
+
+      .hero-content h1 {
+        font-size: 2.5rem;
+      }
+
+      .buy-block {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+      }
+
+      .author-grid {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .author-photo {
+        margin: 0 auto;
+      }
+
+      .praise-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+
+      .decoration {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-wrapper">
+    <!-- STICKY BOOK -->
+    <div class="book-panel">
+      <div class="book-scene">
+        <canvas
+          id="bookCanvas"
+          class="book-canvas"
+          aria-label="Interactive 3D copy of The Fall of Ugarit"
+        ></canvas>
+      </div>
+      <img src="/assets/asherah-white.png" alt="" class="decoration decoration-asherah" />
+      <img src="/assets/tern-white.png" alt="" class="decoration decoration-tern" />
+      <img src="/assets/ibis-white.png" alt="" class="decoration decoration-ibis" />
+      <p class="drag-hint">drag to explore</p>
+    </div>
+
+    <!-- SCROLLING CONTENT -->
+    <div class="content-panel">
+      <section class="content-section hero-content">
+        <img src="/assets/lyre-white.png" alt="" class="decoration decoration-lyre" />
+        <img src="/assets/chariot-white.png" alt="" class="decoration decoration-chariot" />
+        <h1>The Fall of Ugarit</h1>
+        <p class="author">Michael Cope</p>
+        <div class="divider"></div>
+        <div class="synopsis">
+          <p>Eliot believes he is God. It could be an old man's delusion, but then again he might be right. Living in a backpacker's in the seaside suburb of False Bay during a plague, he can perceive from a distance whatever anyone is doing.</p>
+          <p>Anyone, that is, except the new arrival to the neighbourhood, a woman who calls herself D.</p>
+          <p>Their contemporary story is interwoven with a tale of Ugarit, a Bronze Age port in Northern Canaan. It's around 1200 BCE, and on the idyllic slopes of nearby mount Zaphon life continues in the ancient ways. But things change: the droughts and the marauders are coming, and the reign of the old gods, El and Asherah, may soon be over.</p>
+        </div>
+        <div class="buy-block">
+          <span class="price">R400</span>
+          <span class="price-label">Paperback</span>
+          <a href="mailto:order@example.com?subject=Order: The Fall of Ugarit" class="buy-btn">Order Now</a>
+        </div>
+        <p class="pub-info">Vanity Press, 2025</p>
+        </section>
+
+      <section class="praise-section">
+        <img src="/assets/shells-white.png" alt="" class="decoration decoration-shells" />
+        <img src="/assets/crow-white.png" alt="" class="decoration decoration-crow" />
+        <div class="praise-grid">
+          <div class="praise-item">
+            <blockquote>Cope weaves a magical and transporting story that seems to see everything. This is pared down work, lucid and calm.</blockquote>
+            <div class="praise-attribution">
+              <p class="name">Karin Schimke</p>
+              <p class="title">poet and editor</p>
             </div>
           </div>
-        </FadeIn>
-      </div>
-    </section>
-
-    <!-- SCENE 2: THE TITLE REVEAL with Paint Stroke -->
-    <section class="relative min-h-screen flex items-center justify-center py-32">
-      <div class="relative z-20 text-center px-6 max-w-5xl mx-auto">
-        <PaintStroke client:visible className="py-8 md:py-12 mb-8">
-          <h2 class="font-serif text-5xl md:text-7xl lg:text-8xl font-medium text-deep-blue italic">
-            The Fall of Ugarit
-          </h2>
-        </PaintStroke>
-
-        <FadeIn client:visible delay={0.8}>
-          <p class="text-light-blue text-xl md:text-2xl leading-relaxed max-w-3xl mx-auto">
-            An enchanting love story: rich, numinous and splendidly far-reaching.
-          </p>
-          <p class="text-gold/80 mt-4 text-lg">—Finuala Dowling</p>
-        </FadeIn>
-      </div>
-
-      <!-- Floating shell -->
-      <FloatingElement client:visible className="absolute bottom-20 left-[5%] w-32 opacity-70" speed={0.2} direction="up" delay={0.3}>
-        <img src="/assets/shells.png" alt="" class="w-full drop-shadow-2xl" />
-      </FloatingElement>
-    </section>
-
-    <!-- SCENE 3: ASHERAH RISES - The goddess figure -->
-    <section class="relative min-h-[150vh] flex items-center justify-center overflow-hidden">
-      <div class="absolute inset-0 flex items-center justify-center">
-        <RevealImage
-          client:visible
-          src="/assets/asherah.png"
-          alt="Asherah figure"
-          className="w-[60vw] md:w-[40vw] max-w-xl h-auto"
-          direction="up"
-          delay={0.2}
-          parallax
-          parallaxSpeed={0.3}
-        />
-      </div>
-
-      <div class="relative z-20 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center px-6 max-w-7xl mx-auto">
-        <div class="lg:text-right">
-          <FadeIn client:visible direction="left">
-            <p class="text-gold text-sm tracking-[0.2em] uppercase mb-4">The Story</p>
-            <h3 class="font-serif text-3xl md:text-5xl text-light-blue mb-6">
-              Eliot believes he is God.
-            </h3>
-            <p class="text-light-blue/70 text-lg leading-relaxed">
-              It could be an old man's delusion, but then again he might be right. Living in a backpacker's in the seaside suburb of False Bay during a plague, he can perceive from a distance whatever anyone is doing.
-            </p>
-          </FadeIn>
-        </div>
-
-        <div class="lg:col-start-2">
-          <FadeIn client:visible direction="right" delay={0.3}>
-            <p class="text-light-blue/70 text-lg leading-relaxed mb-6">
-              Anyone, that is, except the new arrival to the neighbourhood, a woman who calls herself D.
-            </p>
-            <p class="text-light-blue/70 text-lg leading-relaxed">
-              Their contemporary story is interwoven with a tale of Ugarit, a Bronze Age port in Northern Canaan. It's around 1200 BCE, and on the idyllic slopes of nearby mount Zaphon life continues in the ancient ways.
-            </p>
-          </FadeIn>
-        </div>
-      </div>
-    </section>
-
-    <!-- SCENE 4: THE ANCIENT WORLD - Artifacts -->
-    <section class="relative py-32 overflow-hidden">
-      <div class="max-w-7xl mx-auto px-6">
-        <div class="text-center mb-20">
-          <FadeIn client:visible>
-            <p class="text-gold text-sm tracking-[0.2em] uppercase mb-4">The Ancient World</p>
-          </FadeIn>
-          <AnimatedText
-            client:visible
-            element="h3"
-            className="font-serif text-4xl md:text-6xl"
-            delay={0.2}
-            color="light"
-          >
-            But things change
-          </AnimatedText>
-        </div>
-
-        <!-- Artifact grid with reveals -->
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
-          <div class="col-span-2 row-span-2">
-            <RevealImage
-              client:visible
-              src="/assets/chariot.jpg"
-              alt="Ancient chariot"
-              className="w-full h-full rounded-lg overflow-hidden"
-              direction="left"
-              delay={0}
-            />
-          </div>
-          <RevealImage
-            client:visible
-            src="/assets/lyre.jpg"
-            alt="Ancient lyre"
-            className="w-full aspect-square rounded-lg overflow-hidden"
-            direction="up"
-            delay={0.2}
-          />
-          <RevealImage
-            client:visible
-            src="/assets/bottle.jpg"
-            alt="Ancient vessel"
-            className="w-full aspect-square rounded-lg overflow-hidden"
-            direction="right"
-            delay={0.3}
-          />
-          <div class="col-span-2">
-            <RevealImage
-              client:visible
-              src="/assets/ibis.png"
-              alt="Sacred ibis"
-              className="w-full h-48 md:h-64 rounded-lg overflow-hidden"
-              direction="up"
-              delay={0.4}
-            />
+          <div class="praise-item">
+            <blockquote>An enchanting love story: rich, numinous and splendidly far-reaching.</blockquote>
+            <div class="praise-attribution">
+              <p class="name">Finuala Dowling</p>
+              <p class="title">poet and novelist</p>
+            </div>
           </div>
         </div>
+      </section>
 
-        <FadeIn client:visible delay={0.6} className="mt-16 text-center">
-          <p class="text-light-blue/80 text-xl md:text-2xl leading-relaxed max-w-3xl mx-auto">
-            The droughts and the marauders are coming, and the reign of the old gods, El and Asherah, may soon be over.
-          </p>
-        </FadeIn>
-      </div>
-    </section>
-
-    <!-- SCENE 5: THE REVIEW -->
-    <section class="relative min-h-screen flex items-center py-32 overflow-hidden">
-      <FloatingElement client:visible className="absolute top-40 right-[10%] w-28 opacity-40" speed={0.5} direction="down">
-        <img src="/assets/tern.jpg" alt="" class="w-full rounded-full" />
-      </FloatingElement>
-
-      <div class="max-w-4xl mx-auto px-6 text-center">
-        <FadeIn client:visible>
-          <svg class="w-16 h-16 mx-auto text-gold/40 mb-8" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"/>
-          </svg>
-        </FadeIn>
-
-        <AnimatedText
-          client:visible
-          element="blockquote"
-          className="font-serif text-2xl md:text-4xl leading-relaxed mb-8"
-          delay={0.2}
-          stagger={0.02}
-          color="light"
-        >
-          Cope weaves a magical and transporting story that seems to see everything. This is pared down work, lucid and calm. To write simply is hard work.
-        </AnimatedText>
-
-        <FadeIn client:visible delay={1}>
-          <p class="text-gold text-lg">—Karen Schimke</p>
-        </FadeIn>
-
-        <FadeIn client:visible delay={1.2} className="mt-12">
-          <p class="text-light-blue/60 text-lg italic max-w-2xl mx-auto">
-            "It offers perspective: like going outside and looking up at the Milky Way and suddenly realising the true size of your problems."
-          </p>
-        </FadeIn>
-      </div>
-    </section>
-
-    <!-- SCENE 6: THE AUTHOR -->
-    <section class="relative py-32 overflow-hidden">
-      <div class="max-w-6xl mx-auto px-6">
-        <div class="grid lg:grid-cols-2 gap-16 items-center">
-          <div class="relative">
-            <FloatingElement client:visible speed={0.1} direction="up" floatAnimation={false}>
-              <div class="relative">
-                <div class="absolute -inset-4 bg-gold/20 rounded-full blur-3xl"></div>
-                <RevealImage
-                  client:visible
-                  src="/assets/author.png"
-                  alt="Michael Cope"
-                  className="relative w-64 h-64 md:w-80 md:h-80 mx-auto rounded-full overflow-hidden border-4 border-gold/30"
-                  direction="up"
-                />
-              </div>
-            </FloatingElement>
-          </div>
-
-          <div>
-            <FadeIn client:visible>
-              <p class="text-gold text-sm tracking-[0.2em] uppercase mb-4">The Author</p>
-            </FadeIn>
-
-            <AnimatedText
-              client:visible
-              element="h3"
-              className="font-serif text-4xl md:text-5xl mb-8"
-              delay={0.2}
-            >
-              Michael Cope
-            </AnimatedText>
-
-            <FadeIn client:visible delay={0.6}>
-              <p class="text-light-blue/70 text-lg leading-relaxed mb-6">
-                Michael Cope is widely regarded as one of South Africa's finest poets. His work has earned critical acclaim for its precision, depth, and ability to find the extraordinary in the ordinary.
-              </p>
-              <p class="text-light-blue/70 text-lg leading-relaxed">
-                <em>The Fall of Ugarit</em> marks his venture into prose—"pared down work, lucid and calm."
-              </p>
-            </FadeIn>
+      <section class="author-section">
+        <img src="/assets/lyre-white.png" alt="" class="decoration decoration-lyre-author" />
+        <div class="author-grid">
+          <img src="/assets/author.png" alt="Michael Cope" class="author-photo">
+          <div class="author-bio">
+            <h3>About the Author</h3>
+            <p><strong>Michael Cope</strong> was born in Cape Town, South Africa, in 1952. His father was the distinguished novelist Jack Cope, his mother the painter Lesley. He has worked, among other things, as a jeweller and a computer analyst. He lives in Cape Town where he works as an artist and jeweller. He teaches Goju Karate. He is married to writer Julia Martin, and has three children.</p>
+            <p>He has published three novels: <em>Spiral of Fire</em> (David Philip, 1986), <em>Goldin: A Tale</em> (iUniverse, 2005) and <em>Sunderland</em> (Jacana 2014, with Ken Barris); three volumes of poems: <em>Scenes and Visions</em> (Snailpress, 1990), <em>GHAAP, Sonnets from the Northern Cape</em> (Kwela Books and Snailpress, 2005) and <em>The Craft</em> (Left Field Press, 2017); and a memoir, <em>Intricacy: A Meditation on Memory</em> (Double Storey, 2005).</p>
+            <p>His book on jewellery, <em>Concerning the Craft</em>, is due out with Thin Ice Press in York, UK.</p>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <!-- SCENE 7: BUY SECTION with Paint Stroke -->
-    <section class="relative min-h-screen flex items-center py-32" id="buy">
-      <div class="max-w-4xl mx-auto px-6 text-center">
-        <FadeIn client:visible>
-          <p class="text-gold text-sm tracking-[0.2em] uppercase mb-4">Get Your Copy</p>
-        </FadeIn>
+      <section class="footer-section">
+        <p>© 2025 Michael Cope</p>
+      </section>
+    </div>
+  </div>
 
-        <PaintStroke client:visible className="py-6 md:py-10 mb-12" delay={0.2}>
-          <h2 class="font-serif text-4xl md:text-6xl text-deep-blue">
-            Order Now
-          </h2>
-        </PaintStroke>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script>
+    window.addEventListener('load', function() {
+      const canvas = document.getElementById('bookCanvas');
+      if (!canvas) return;
 
-        <FadeIn client:visible delay={0.6}>
-          <div class="bg-deep-blue/50 backdrop-blur-sm rounded-2xl p-8 md:p-12 border border-gold/20 max-w-xl mx-auto">
-            <p class="text-5xl font-serif text-gold mb-4">R180</p>
-            <p class="text-light-blue/70 mb-8">
-              Available in print. Delivered anywhere in South Africa.
-            </p>
+      const rect = canvas.getBoundingClientRect();
 
-            <a
-              href="mailto:order@example.com?subject=Order: The Fall of Ugarit&body=I would like to order a copy of The Fall of Ugarit."
-              class="inline-flex items-center justify-center px-10 py-4 bg-gold text-deep-blue font-semibold rounded-full hover:bg-gold-light transition-all duration-300 hover:scale-105 active:scale-95"
-            >
-              Order Now
-            </a>
+      // Premium renderer setup
+      const renderer = new THREE.WebGLRenderer({
+        canvas,
+        antialias: true,
+        alpha: true,
+        powerPreference: 'high-performance'
+      });
+      renderer.setSize(rect.width, rect.height);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      renderer.outputEncoding = THREE.sRGBEncoding;
+      renderer.toneMapping = THREE.ACESFilmicToneMapping;
+      renderer.toneMappingExposure = 1.0;
+      renderer.shadowMap.enabled = true;
+      renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
-            <p class="text-light-blue/50 text-sm mt-8">
-              Secure payment via EFT, Snapscan, or card
-            </p>
-          </div>
-        </FadeIn>
+      const scene = new THREE.Scene();
 
-        <!-- Floating shells decoration -->
-        <FloatingElement client:visible className="absolute bottom-20 right-[10%] w-24 opacity-50" speed={0.3} direction="up">
-          <img src="/assets/shells.png" alt="" class="w-full" />
-        </FloatingElement>
-      </div>
-    </section>
+      // Camera - positioned to show full book with padding
+      const camera = new THREE.PerspectiveCamera(28, rect.width / rect.height, 0.1, 100);
+      camera.position.set(0, 0, 10);
 
-    <!-- FOOTER -->
-    <footer class="relative py-16 border-t border-gold/20">
-      <div class="max-w-6xl mx-auto px-6">
-        <div class="flex flex-col md:flex-row justify-between items-center gap-8">
-          <div class="text-center md:text-left">
-            <p class="font-serif text-2xl text-gold italic">The Fall of Ugarit</p>
-            <p class="text-light-blue/60 text-sm mt-2">A Novella by Michael Cope</p>
-          </div>
+      // Premium texture loading
+      const loader = new THREE.TextureLoader();
+      const maxAniso = renderer.capabilities.getMaxAnisotropy();
 
-          <nav class="flex gap-8 text-light-blue/70">
-            <a href="#buy" class="hover:text-gold transition-colors">Order</a>
-            <a href="mailto:contact@example.com" class="hover:text-gold transition-colors">Contact</a>
-          </nav>
+      function loadTex(url) {
+        const tex = loader.load(url);
+        tex.anisotropy = maxAniso;
+        tex.encoding = THREE.sRGBEncoding;
+        tex.minFilter = THREE.LinearMipmapLinearFilter;
+        tex.magFilter = THREE.LinearFilter;
+        tex.generateMipmaps = true;
+        return tex;
+      }
 
-          <p class="text-light-blue/40 text-sm">
-            © 2024 Michael Cope
-          </p>
-        </div>
-      </div>
-    </footer>
-  </main>
-</Layout>
+      const frontTex = loadTex('/assets/book-front.png');
+      const backTex = loadTex('/assets/book-back.png');
+      const spineTex = loadTex('/assets/book-spine.png');
+
+      // ============================================
+      // REALISTIC PAPERBACK BOOK CONSTRUCTION
+      // ============================================
+
+      // Dimensions (12.5 x 17.5 cm cover, 1.3 cm spine)
+      const coverWidth = 2.5;
+      const coverHeight = 3.5;
+      const spineWidth = 0.26;
+      const coverThickness = 0.012;  // Thin cardstock cover
+      const pageBlockInset = 0.02;   // Pages slightly smaller than cover
+
+      // Book group to hold all parts
+      const bookGroup = new THREE.Group();
+
+      // ============================================
+      // 1. PAGE BLOCK - Realistic stacked pages
+      // ============================================
+      const pageBlockWidth = coverWidth - pageBlockInset * 2;
+      const pageBlockHeight = coverHeight - pageBlockInset * 2;
+      const pageBlockDepth = spineWidth - coverThickness * 2;
+
+      // Create detailed page edge texture (right side - open edge)
+      const pageEdgeCanvas = document.createElement('canvas');
+      pageEdgeCanvas.width = 512;
+      pageEdgeCanvas.height = 512;
+      const pCtx = pageEdgeCanvas.getContext('2d');
+
+      // Cream base
+      pCtx.fillStyle = '#f8f4e8';
+      pCtx.fillRect(0, 0, 512, 512);
+
+      // Draw ~200 individual page lines for realism
+      const numPageLines = 200;
+      for (let i = 0; i < numPageLines; i++) {
+        const x = (i / numPageLines) * 512;
+        // Varying page colors for natural look
+        const shade = 240 + Math.random() * 15;
+        pCtx.fillStyle = `rgb(${shade}, ${shade - 5}, ${shade - 15})`;
+        pCtx.fillRect(x, 0, 512 / numPageLines, 512);
+        // Subtle shadow between pages
+        pCtx.fillStyle = `rgba(180, 170, 150, ${0.2 + Math.random() * 0.3})`;
+        pCtx.fillRect(x, 0, 0.8, 512);
+      }
+
+      // Slight yellowing toward spine (left side)
+      const gradient = pCtx.createLinearGradient(0, 0, 100, 0);
+      gradient.addColorStop(0, 'rgba(200, 180, 140, 0.3)');
+      gradient.addColorStop(1, 'rgba(200, 180, 140, 0)');
+      pCtx.fillStyle = gradient;
+      pCtx.fillRect(0, 0, 100, 512);
+
+      const pageEdgeTex = new THREE.CanvasTexture(pageEdgeCanvas);
+      pageEdgeTex.anisotropy = maxAniso;
+
+      // Top/bottom page texture (rotated)
+      const pageTopCanvas = document.createElement('canvas');
+      pageTopCanvas.width = 512;
+      pageTopCanvas.height = 512;
+      const tCtx = pageTopCanvas.getContext('2d');
+
+      tCtx.fillStyle = '#f5f1e5';
+      tCtx.fillRect(0, 0, 512, 512);
+
+      // Horizontal lines for top view
+      for (let i = 0; i < numPageLines; i++) {
+        const y = (i / numPageLines) * 512;
+        const shade = 240 + Math.random() * 15;
+        tCtx.fillStyle = `rgb(${shade}, ${shade - 5}, ${shade - 15})`;
+        tCtx.fillRect(0, y, 512, 512 / numPageLines);
+        tCtx.fillStyle = `rgba(180, 170, 150, ${0.15 + Math.random() * 0.2})`;
+        tCtx.fillRect(0, y, 512, 0.6);
+      }
+
+      // Glue binding strip (dark line near spine)
+      tCtx.fillStyle = 'rgba(80, 60, 40, 0.5)';
+      tCtx.fillRect(0, 0, 15, 512);
+      tCtx.fillStyle = 'rgba(100, 80, 60, 0.25)';
+      tCtx.fillRect(15, 0, 10, 512);
+
+      const pageTopTex = new THREE.CanvasTexture(pageTopCanvas);
+      pageTopTex.anisotropy = maxAniso;
+
+      // Page block material
+      const pageBlockMaterial = new THREE.MeshStandardMaterial({
+        map: pageEdgeTex,
+        roughness: 0.9,
+        metalness: 0,
+        color: 0xf5f0e5,
+      });
+
+      const pageTopMaterial = new THREE.MeshStandardMaterial({
+        map: pageTopTex,
+        roughness: 0.9,
+        metalness: 0,
+        color: 0xf5f0e5,
+      });
+
+      // Spine-side pages (glue binding visible)
+      const pageSpineTex = new THREE.CanvasTexture(pageTopCanvas);
+      pageSpineTex.rotation = Math.PI;
+      pageSpineTex.center.set(0.5, 0.5);
+      const pageSpineMaterial = new THREE.MeshStandardMaterial({
+        map: pageSpineTex,
+        roughness: 0.95,
+        metalness: 0,
+        color: 0xe8e0d0,
+      });
+
+      // Page block geometry with slightly rounded edges
+      const pageBlockGeo = new THREE.BoxGeometry(
+        pageBlockWidth,
+        pageBlockHeight,
+        pageBlockDepth,
+        1, 1, 1
+      );
+
+      const pageBlockMaterials = [
+        pageBlockMaterial,   // +X right (page edges)
+        pageSpineMaterial,   // -X left (glue binding)
+        pageTopMaterial,     // +Y top
+        pageTopMaterial,     // -Y bottom
+        pageBlockMaterial,   // +Z front (hidden by cover)
+        pageBlockMaterial,   // -Z back (hidden by cover)
+      ];
+
+      const pageBlock = new THREE.Mesh(pageBlockGeo, pageBlockMaterials);
+      pageBlock.castShadow = true;
+      pageBlock.receiveShadow = true;
+      bookGroup.add(pageBlock);
+
+      // ============================================
+      // 2. COVERS with golden metallic effect
+      // ============================================
+      const coverMaterial = (tex, isSpine = false) => {
+        return new THREE.ShaderMaterial({
+          uniforms: {
+            map: { value: tex },
+            lightPos: { value: new THREE.Vector3(5, 8, 5) },
+            lightPos2: { value: new THREE.Vector3(-3, 4, 6) },
+          },
+          vertexShader: `
+            varying vec2 vUv;
+            varying vec3 vNormal;
+            varying vec3 vViewPosition;
+            varying vec3 vWorldPosition;
+            void main() {
+              vUv = uv;
+              vNormal = normalize(normalMatrix * normal);
+              vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
+              vViewPosition = -mvPosition.xyz;
+              vWorldPosition = (modelMatrix * vec4(position, 1.0)).xyz;
+              gl_Position = projectionMatrix * mvPosition;
+            }
+          `,
+          fragmentShader: `
+            uniform sampler2D map;
+            uniform vec3 lightPos;
+            uniform vec3 lightPos2;
+            varying vec2 vUv;
+            varying vec3 vNormal;
+            varying vec3 vViewPosition;
+            varying vec3 vWorldPosition;
+
+            void main() {
+              vec4 texColor = texture2D(map, vUv);
+              vec3 color = texColor.rgb;
+              float r = color.r, g = color.g, b = color.b;
+
+              // Detect yellow/gold pixels
+              float isGold = step(0.55, r) * step(0.4, g) * (1.0 - step(0.55, b));
+              float goldAmount = isGold * clamp((r + g - b * 1.5) * 0.9, 0.0, 1.0);
+
+              // Multiple light sources for realism
+              vec3 N = normalize(vNormal);
+              vec3 V = normalize(vViewPosition);
+              vec3 L1 = normalize(lightPos - vWorldPosition);
+              vec3 L2 = normalize(lightPos2 - vWorldPosition);
+              vec3 H1 = normalize(L1 + V);
+              vec3 H2 = normalize(L2 + V);
+
+              float diff1 = max(dot(N, L1), 0.0);
+              float diff2 = max(dot(N, L2), 0.0) * 0.5;
+              float diff = diff1 + diff2;
+
+              float spec1 = pow(max(dot(N, H1), 0.0), 80.0);
+              float spec2 = pow(max(dot(N, H2), 0.0), 40.0) * 0.5;
+              float spec = spec1 + spec2;
+
+              float fresnel = pow(1.0 - max(dot(N, V), 0.0), 5.0);
+
+              // Rich gold colors
+              vec3 goldBase = vec3(0.92, 0.72, 0.22);
+              vec3 goldHighlight = vec3(1.0, 0.92, 0.55);
+              vec3 goldReflect = vec3(1.0, 0.85, 0.4);
+
+              // Apply metallic gold to yellow areas
+              vec3 result = color;
+              result = mix(result, goldBase, goldAmount * 0.45);
+              result += goldHighlight * spec * goldAmount * 3.0;
+              result += goldReflect * fresnel * goldAmount * 1.2;
+
+              // Matte cover lighting for non-gold areas
+              float matteDiff = 0.45 + diff * 0.55;
+              result = mix(result * matteDiff, result, goldAmount * 0.5);
+
+              // Subtle specular on cover (laminate effect)
+              result += vec3(1.0) * spec * 0.08 * (1.0 - goldAmount);
+
+              gl_FragColor = vec4(result, 1.0);
+            }
+          `,
+        });
+      };
+
+      // Front cover
+      const frontCoverGeo = new THREE.PlaneGeometry(coverWidth, coverHeight);
+      const frontCover = new THREE.Mesh(frontCoverGeo, coverMaterial(frontTex));
+      frontCover.position.z = spineWidth / 2 + 0.001;
+      frontCover.castShadow = true;
+      bookGroup.add(frontCover);
+
+      // Back cover
+      const backCoverGeo = new THREE.PlaneGeometry(coverWidth, coverHeight);
+      const backCover = new THREE.Mesh(backCoverGeo, coverMaterial(backTex));
+      backCover.position.z = -spineWidth / 2 - 0.001;
+      backCover.rotation.y = Math.PI;
+      backCover.castShadow = true;
+      bookGroup.add(backCover);
+
+      // ============================================
+      // 3. SPINE - Curved for realism
+      // ============================================
+      const spineGeo = new THREE.PlaneGeometry(spineWidth, coverHeight, 8, 1);
+      // Add slight curve to spine vertices
+      const spinePos = spineGeo.attributes.position;
+      for (let i = 0; i < spinePos.count; i++) {
+        const x = spinePos.getX(i);
+        const curve = Math.sin((x / spineWidth + 0.5) * Math.PI) * 0.015;
+        spinePos.setZ(i, -curve);
+      }
+      spineGeo.computeVertexNormals();
+
+      const spine = new THREE.Mesh(spineGeo, coverMaterial(spineTex, true));
+      spine.rotation.y = -Math.PI / 2;
+      spine.position.x = -coverWidth / 2;
+      spine.castShadow = true;
+      bookGroup.add(spine);
+
+      // ============================================
+      // 4. CREASE LINES - subtle shadow where cover meets spine
+      // ============================================
+      // Removed - too harsh looking
+
+      // ============================================
+      // 5. COVER EDGES - removed, pages show naturally
+      // ============================================
+
+      // ============================================
+      // 6. PAGE EDGE CURVE (slight natural curve)
+      // ============================================
+      // Modify page block to have slight outward curve on open edge
+      const positions = pageBlockGeo.attributes.position;
+      for (let i = 0; i < positions.count; i++) {
+        const x = positions.getX(i);
+        const y = positions.getY(i);
+        if (x > 0) { // Right edge (open side)
+          const curveAmount = 0.008 * (1 - Math.abs(y) / (pageBlockHeight / 2));
+          positions.setX(i, x + curveAmount);
+        }
+      }
+      pageBlockGeo.computeVertexNormals();
+
+      // Position the book group
+      bookGroup.position.set(0.1, 0, 0);
+      bookGroup.rotation.set(0.1, 0.5, 0);
+      scene.add(bookGroup);
+
+      // ============================================
+      // LIGHTING - Soft, realistic
+      // ============================================
+      const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+      scene.add(ambientLight);
+
+      const keyLight = new THREE.DirectionalLight(0xffffff, 0.9);
+      keyLight.position.set(5, 8, 5);
+      keyLight.castShadow = true;
+      keyLight.shadow.mapSize.width = 2048;
+      keyLight.shadow.mapSize.height = 2048;
+      keyLight.shadow.camera.near = 0.5;
+      keyLight.shadow.camera.far = 50;
+      keyLight.shadow.bias = -0.0001;
+      keyLight.shadow.radius = 4;
+      scene.add(keyLight);
+
+      const fillLight = new THREE.DirectionalLight(0xffeedd, 0.4);
+      fillLight.position.set(-3, 4, 6);
+      scene.add(fillLight);
+
+      const rimLight = new THREE.DirectionalLight(0xffd700, 0.25);
+      rimLight.position.set(0, -2, -5);
+      scene.add(rimLight);
+
+      // Soft bounce light from below
+      const bounceLight = new THREE.DirectionalLight(0xfff5e0, 0.15);
+      bounceLight.position.set(0, -3, 2);
+      scene.add(bounceLight);
+
+      // Shadow plane
+      const shadowGeo = new THREE.PlaneGeometry(6, 6);
+      const shadowMat = new THREE.ShadowMaterial({ opacity: 0.2 });
+      const shadowPlane = new THREE.Mesh(shadowGeo, shadowMat);
+      shadowPlane.rotation.x = -Math.PI / 2;
+      shadowPlane.position.y = -2.0;
+      shadowPlane.receiveShadow = true;
+      scene.add(shadowPlane);
+
+      // ============================================
+      // INTERACTION
+      // ============================================
+      let isDragging = false;
+      let prevX = 0, prevY = 0;
+      let targetRotY = 0.5, targetRotX = 0.1;
+      let velocityY = 0;
+
+      canvas.style.cursor = 'grab';
+
+      canvas.addEventListener('pointerdown', (e) => {
+        isDragging = true;
+        canvas.style.cursor = 'grabbing';
+        prevX = e.clientX;
+        prevY = e.clientY;
+        velocityY = 0;
+      });
+
+      window.addEventListener('pointermove', (e) => {
+        if (!isDragging) return;
+        const dx = e.clientX - prevX;
+        const dy = e.clientY - prevY;
+        targetRotY += dx * 0.008;
+        targetRotX += dy * 0.004;
+        targetRotX = Math.max(-0.5, Math.min(0.5, targetRotX));
+        velocityY = dx * 0.008;
+        prevX = e.clientX;
+        prevY = e.clientY;
+      });
+
+      window.addEventListener('pointerup', () => {
+        isDragging = false;
+        canvas.style.cursor = 'grab';
+      });
+
+      // Smooth animation
+      function animate() {
+        requestAnimationFrame(animate);
+
+        if (!isDragging && Math.abs(velocityY) > 0.0001) {
+          targetRotY += velocityY;
+          velocityY *= 0.95;
+        }
+
+        bookGroup.rotation.y += (targetRotY - bookGroup.rotation.y) * 0.08;
+        bookGroup.rotation.x += (targetRotX - bookGroup.rotation.x) * 0.08;
+        renderer.render(scene, camera);
+      }
+      animate();
+
+      // Handle resize
+      window.addEventListener('resize', () => {
+        const r = canvas.getBoundingClientRect();
+        camera.aspect = r.width / r.height;
+        camera.updateProjectionMatrix();
+        renderer.setSize(r.width, r.height);
+      });
+    });
+  </script>
+</body>
+</html>
