@@ -400,12 +400,28 @@ import '../styles/global.css';
       .book-panel {
         position: relative;
         height: auto;
-        min-height: 60vh;
-        padding: 3rem 2rem;
+        min-height: 55vh;
+        padding: 2rem 1rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
       }
 
       .book-scene {
-        width: clamp(240px, 65vw, 360px);
+        position: relative;
+        width: 100%;
+        max-width: 320px;
+        height: 50vh;
+        margin: 0 auto;
+      }
+
+      .drag-hint {
+        position: relative;
+        bottom: auto;
+        left: auto;
+        transform: none;
+        margin-top: 1rem;
       }
 
       .content-section,
@@ -895,14 +911,20 @@ import '../styles/global.css';
       scene.add(shadowPlane);
 
       // ============================================
-      // INTERACTION
+      // INTERACTION - Enhanced for mobile
       // ============================================
       let isDragging = false;
       let prevX = 0, prevY = 0;
       let targetRotY = 0.5, targetRotX = 0.1;
       let velocityY = 0;
 
+      // Detect mobile for higher sensitivity
+      const isMobile = window.innerWidth <= 900;
+      const sensitivityY = isMobile ? 0.02 : 0.008;
+      const sensitivityX = isMobile ? 0.01 : 0.004;
+
       canvas.style.cursor = 'grab';
+      canvas.style.touchAction = 'none'; // Prevent scroll interference
 
       canvas.addEventListener('pointerdown', (e) => {
         isDragging = true;
@@ -910,16 +932,17 @@ import '../styles/global.css';
         prevX = e.clientX;
         prevY = e.clientY;
         velocityY = 0;
+        e.preventDefault();
       });
 
       window.addEventListener('pointermove', (e) => {
         if (!isDragging) return;
         const dx = e.clientX - prevX;
         const dy = e.clientY - prevY;
-        targetRotY += dx * 0.008;
-        targetRotX += dy * 0.004;
-        targetRotX = Math.max(-0.5, Math.min(0.5, targetRotX));
-        velocityY = dx * 0.008;
+        targetRotY += dx * sensitivityY;
+        targetRotX += dy * sensitivityX;
+        targetRotX = Math.max(-0.8, Math.min(0.8, targetRotX)); // Allow more vertical tilt
+        velocityY = dx * sensitivityY;
         prevX = e.clientX;
         prevY = e.clientY;
       });
@@ -929,17 +952,18 @@ import '../styles/global.css';
         canvas.style.cursor = 'grab';
       });
 
-      // Smooth animation
+      // Smooth animation with faster response
       function animate() {
         requestAnimationFrame(animate);
 
         if (!isDragging && Math.abs(velocityY) > 0.0001) {
           targetRotY += velocityY;
-          velocityY *= 0.95;
+          velocityY *= 0.92; // Slower decay for smoother momentum
         }
 
-        bookGroup.rotation.y += (targetRotY - bookGroup.rotation.y) * 0.08;
-        bookGroup.rotation.x += (targetRotX - bookGroup.rotation.x) * 0.08;
+        const lerpSpeed = isMobile ? 0.12 : 0.08; // Faster response on mobile
+        bookGroup.rotation.y += (targetRotY - bookGroup.rotation.y) * lerpSpeed;
+        bookGroup.rotation.x += (targetRotX - bookGroup.rotation.x) * lerpSpeed;
         renderer.render(scene, camera);
       }
       animate();
