@@ -188,11 +188,34 @@ import '../styles/global.css';
       bottom: 1.5rem;
       left: 50%;
       transform: translateX(-50%);
-      color: rgba(255,255,255,0.5);
-      font-size: 0.9rem;
-      letter-spacing: 0.04em;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: rgba(255,255,255,0.7);
+      font-size: 0.95rem;
+      letter-spacing: 0.03em;
       pointer-events: none;
       z-index: 10;
+      background: rgba(0,0,0,0.25);
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      animation: hint-pulse 3s ease-in-out infinite;
+    }
+
+    .drag-icon {
+      width: 18px;
+      height: 18px;
+      animation: sway-hint 2s ease-in-out infinite;
+    }
+
+    @keyframes hint-pulse {
+      0%, 100% { opacity: 0.7; }
+      50% { opacity: 1; }
+    }
+
+    @keyframes sway-hint {
+      0%, 100% { transform: translateX(0); }
+      50% { transform: translateX(4px); }
     }
 
     .buy-btn:hover {
@@ -215,6 +238,74 @@ import '../styles/global.css';
       color: rgba(255, 255, 255, 0.4);
       font-size: 0.85rem;
       margin-top: 1rem;
+    }
+
+    .ebook-notice {
+      margin-top: 0.6rem;
+      color: rgba(255, 255, 255, 0.85);
+      font-size: 0.95rem;
+      letter-spacing: 0.01em;
+    }
+
+    /* Extracts section */
+    .extracts-section {
+      background: #0a1a3d;
+      min-height: auto;
+      padding: 4rem 3rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .decoration-wheelchair {
+      width: 100px;
+      bottom: 8%;
+      right: 4%;
+      opacity: 0.35;
+    }
+
+    .extracts-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      max-width: 900px;
+    }
+
+    .extract-item {
+      position: relative;
+    }
+
+    .extract-label {
+      font-family: 'Crimson Text', Georgia, serif;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: #ffb102;
+      margin-bottom: 1rem;
+      opacity: 0.9;
+    }
+
+    .extract-text {
+      font-size: 1rem;
+      line-height: 1.85;
+      color: rgba(255, 255, 255, 0.85);
+    }
+
+    .extract-text p {
+      margin-bottom: 1rem;
+      text-indent: 1.5em;
+    }
+
+    .extract-text p:first-child {
+      text-indent: 0;
+    }
+
+    .section-heading {
+      font-family: 'Crimson Text', Georgia, serif;
+      font-size: 1.6rem;
+      font-weight: 600;
+      color: #ffb102;
+      margin-bottom: 2rem;
+      letter-spacing: 0.01em;
     }
 
     /* Praise section - Stripe Press inspired */
@@ -257,6 +348,21 @@ import '../styles/global.css';
     .praise-item .title {
       color: rgba(255, 255, 255, 0.5);
       font-size: 0.9rem;
+    }
+
+    .review-link {
+      display: inline-block;
+      margin-top: 0.75rem;
+      color: #ffb102;
+      font-size: 0.85rem;
+      text-decoration: none;
+      opacity: 0.85;
+      transition: opacity 0.2s;
+    }
+
+    .review-link:hover {
+      opacity: 1;
+      text-decoration: underline;
     }
 
     /* Author section */
@@ -422,6 +528,7 @@ import '../styles/global.css';
         left: auto;
         transform: none;
         margin-top: 1rem;
+        font-size: 0.9rem;
       }
 
       .content-section,
@@ -460,6 +567,11 @@ import '../styles/global.css';
         padding: 3rem 2rem;
       }
 
+      .extracts-grid {
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+      }
+
       .author-photo {
         width: 100px;
         height: 100px;
@@ -483,7 +595,12 @@ import '../styles/global.css';
         ></canvas>
       </div>
       <img src="/assets/tern-white.png" alt="" class="decoration decoration-tern" />
-      <p class="drag-hint">drag to explore</p>
+      <p class="drag-hint">
+        <svg class="drag-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <path d="M5 12h14M12 5l7 7-7 7"/>
+        </svg>
+        Interactive · click and drag
+      </p>
     </div>
 
     <!-- SCROLLING CONTENT -->
@@ -506,7 +623,31 @@ import '../styles/global.css';
           <a href="mailto:order@example.com?subject=Order: The Fall of Ugarit" class="buy-btn">Order Now</a>
         </div>
         <p class="pub-info">Vanity Press, 2025</p>
+        <p class="ebook-notice">E-book coming soon</p>
         </section>
+
+      <section class="extracts-section">
+        <img src="/assets/wheelchair-white.png" alt="" class="decoration decoration-wheelchair" />
+        <h2 class="section-heading">Read an Extract</h2>
+        <div class="extracts-grid">
+          <div class="extract-item">
+            <p class="extract-label">False Bay, 202?</p>
+            <div class="extract-text">
+              <p>The bowl would fit well in my hand, but I leave it on the table. It is a soup bowl, big enough to hold a decent serving of soup. It's made of white ceramic, and I know without having to look that on the underside of the bowl are the words 'Made in China' impressed into the clay before firing. The bowl has only one small chip on the rim, but, seen in the light from a high window, its white surface is crazed with a multitude of fine scratches. It has seen many meals, been washed many times.</p>
+              <p>Since I'm here with my bowl, please allow me to introduce myself. My name is Eliot, and I am the omniscient narrator of this text, as well as a character in it – the protagonist, you might say, the first person.</p>
+              <p>Since I had a stroke a year and a half ago I have known that I am the one true creator God, incarnated in the body of someone who would otherwise have died right there. I am single, a pensioner with a very modest pension, and at the same time I am God Almighty in the body of a man. That's what I really mean when I say that I'm the omniscient narrator. I'm not kidding you and I'm not a crazy deluded old man.</p>
+            </div>
+          </div>
+          <div class="extract-item">
+            <p class="extract-label">Ugarit, 12?? BCE</p>
+            <div class="extract-text">
+              <p>I pitched my tent on the mountainside, on a level area not far from the stream, above and to the east of the Grove. With the front of the tent rolled up, I had a view of the entire flank of the mountain down to the foothills and beyond to some flat land then the sea, which dissolved into white mist on the western horizon.</p>
+              <p>South of my camp a stream had cut a tree-lined valley into the mountain slope. At the heart of the trees there was a little waterfall, hardly more than a trickle, and such was the disposition of the stones and the small cavern that backs the fall, that at certain seasons the rushing or dripping water made sounds like words, or like an almost heard conversation.</p>
+              <p>Only women were called to the voices. Generation after generation, they came for the advice, consolation and prophecies that could be heard in the sound of the little waterfall in the laurel grove, that eventually became the Sacred Grove.</p>
+            </div>
+          </div>
+        </div>
+      </section>
 
       <section class="praise-section">
         <img src="/assets/shells-white.png" alt="" class="decoration decoration-shells" />
@@ -515,7 +656,8 @@ import '../styles/global.css';
             <blockquote>Cope weaves a magical and transporting story that seems to see everything. This is pared down work, lucid and calm.</blockquote>
             <div class="praise-attribution">
               <p class="name">Karin Schimke</p>
-              <p class="title">poet and editor</p>
+              <p class="title">poet, critic, essayist</p>
+              <a href="https://www.instagram.com/p/DJ9GbQAsrNJ/" target="_blank" rel="noopener" class="review-link">Read full review →</a>
             </div>
           </div>
           <div class="praise-item">
@@ -536,7 +678,7 @@ import '../styles/global.css';
             <h3>About the Author</h3>
             <p><strong>Michael Cope</strong> was born in Cape Town, South Africa, in 1952. His father was the distinguished novelist Jack Cope, his mother the painter Lesley. He has worked, among other things, as a jeweller and a computer analyst. He lives in Cape Town where he works as an artist and jeweller. He teaches Goju Karate. He is married to writer Julia Martin, and has three children.</p>
             <p>He has published three novels: <em>Spiral of Fire</em> (David Philip, 1986), <em>Goldin: A Tale</em> (iUniverse, 2005) and <em>Sunderland</em> (Jacana 2014, with Ken Barris); three volumes of poems: <em>Scenes and Visions</em> (Snailpress, 1990), <em>GHAAP, Sonnets from the Northern Cape</em> (Kwela Books and Snailpress, 2005) and <em>The Craft</em> (Left Field Press, 2017); and a memoir, <em>Intricacy: A Meditation on Memory</em> (Double Storey, 2005).</p>
-            <p>His book on jewellery, <em>Concerning the Craft</em>, is due out with Thin Ice Press in York, UK.</p>
+            <p>His book on jewellery, <em>Concerning the Craft</em>, is out now: <a href="https://www.thinicepress.org/concerning-the-work" target="_blank" rel="noopener" style="color: rgba(255,255,255,0.9); text-decoration: underline;">special hand-made edition</a> from Thin Ice Press in York, UK, and <a href="https://www.riverpress.co.za" target="_blank" rel="noopener" style="color: rgba(255,255,255,0.9); text-decoration: underline;">paperback trade edition</a> from River Press in Cape Town.</p>
           </div>
         </div>
       </section>
