@@ -112,45 +112,75 @@ import '../styles/global.css';
 
     /* Buy block */
     .buy-block {
-      display: inline-flex;
-      align-items: center;
-      gap: 1.5rem;
-      padding: 1.25rem 0 0.5rem 0;
-      border-top: 1px solid rgba(255,255,255,0.1);
-      margin-top: 1.5rem;
+      position: relative;
+      margin-top: 2rem;
+      padding-top: 2rem;
+      border-top: 1px solid rgba(255,255,255,0.2);
+      max-width: 400px;
     }
 
-    .price-group {
+    .buy-option {
       display: flex;
-      align-items: baseline;
-      gap: 0.5rem;
-    }
-
-    .price {
-      font-family: 'Crimson Text', Georgia, serif;
-      font-size: 1.8rem;
-      color: #ffb102;
-      letter-spacing: -0.02em;
-    }
-
-    .price-label {
-      font-size: 0.95rem;
-      color: #d4dff9;
-      opacity: 0.5;
-      margin-right: 0.5rem;
-    }
-
-    .buy-btn {
-      padding: 0.7rem 1.6rem;
-      background: #ffb102;
-      color: #153b9d;
-      font-family: 'EB Garamond', Georgia, serif;
-      font-weight: 600;
-      font-size: 1.05rem;
-      border-radius: 3px;
+      align-items: center;
+      padding: 1rem 0;
+      border-bottom: 1px solid rgba(255,255,255,0.15);
       text-decoration: none;
       transition: all 0.2s;
-      letter-spacing: 0.02em;
+    }
+
+    a.buy-option:hover {
+      padding-left: 0.5rem;
+    }
+
+    a.buy-option:hover .buy-arrow {
+      transform: translate(3px, -3px);
+    }
+
+    .buy-option-text {
+      font-family: 'Crimson Text', Georgia, serif;
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: #ffb102;
+    }
+
+    .buy-option-price {
+      font-family: 'Crimson Text', Georgia, serif;
+      font-size: 1.1rem;
+      color: rgba(255,255,255,0.6);
+      margin-left: 1rem;
+    }
+
+    .buy-arrow {
+      width: 18px;
+      height: 18px;
+      margin-left: auto;
+      stroke: #ffb102;
+      transition: transform 0.2s;
+    }
+
+    .buy-option.disabled {
+      opacity: 0.5;
+      cursor: default;
+    }
+
+    .buy-option.disabled .buy-option-text {
+      color: rgba(255,255,255,0.6);
+    }
+
+    .buy-option-soon {
+      font-size: 0.9rem;
+      color: rgba(255,255,255,0.4);
+      margin-left: auto;
+      font-style: italic;
+    }
+
+    .buy-decoration {
+      position: absolute;
+      right: -100px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 80px;
+      opacity: 0.3;
     }
 
     /* Scroll indicator */
@@ -203,9 +233,9 @@ import '../styles/global.css';
     }
 
     .drag-icon {
-      width: 18px;
-      height: 18px;
-      animation: sway-hint 2s ease-in-out infinite;
+      width: 20px;
+      height: 20px;
+      animation: spin-hint 4s linear infinite;
     }
 
     @keyframes hint-pulse {
@@ -213,9 +243,9 @@ import '../styles/global.css';
       50% { opacity: 1; }
     }
 
-    @keyframes sway-hint {
-      0%, 100% { transform: translateX(0); }
-      50% { transform: translateX(4px); }
+    @keyframes spin-hint {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
     }
 
     .buy-btn:hover {
@@ -238,13 +268,6 @@ import '../styles/global.css';
       color: rgba(255, 255, 255, 0.4);
       font-size: 0.85rem;
       margin-top: 1rem;
-    }
-
-    .ebook-notice {
-      margin-top: 0.6rem;
-      color: rgba(255, 255, 255, 0.85);
-      font-size: 0.95rem;
-      letter-spacing: 0.01em;
     }
 
     /* Extracts section */
@@ -465,14 +488,6 @@ import '../styles/global.css';
       opacity: 0.5;
     }
 
-    /* Crow - bottom right, aligned with other right elements */
-    .decoration-crow-hero {
-      width: 80px;
-      bottom: 14%;
-      right: 7%;
-      opacity: 0.45;
-    }
-
     /* Asherah - right side, vertically centered, aligned */
     .decoration-asherah {
       width: 90px;
@@ -542,10 +557,12 @@ import '../styles/global.css';
         font-size: 2.5rem;
       }
 
+      .buy-decoration {
+        display: none;
+      }
+
       .buy-block {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 1rem;
+        max-width: 100%;
       }
 
       .author-grid {
@@ -596,8 +613,9 @@ import '../styles/global.css';
       </div>
       <img src="/assets/tern-white.png" alt="" class="decoration decoration-tern" />
       <p class="drag-hint">
-        <svg class="drag-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-          <path d="M5 12h14M12 5l7 7-7 7"/>
+        <svg class="drag-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z" stroke-dasharray="4 2"/>
+          <path d="M16 12l-4-4M16 12l-4 4M8 12l4-4M8 12l4 4" stroke-linecap="round"/>
         </svg>
         Interactive · click and drag
       </p>
@@ -607,8 +625,7 @@ import '../styles/global.css';
     <div class="content-panel">
       <section class="content-section hero-content">
         <img src="/assets/ibis-white.png" alt="" class="decoration decoration-ibis" />
-        <img src="/assets/crow-white.png" alt="" class="decoration decoration-crow-hero" />
-        <img src="/assets/asherah-white.png" alt="" class="decoration decoration-asherah" />
+                <img src="/assets/asherah-white.png" alt="" class="decoration decoration-asherah" />
         <h1>The Fall of Ugarit</h1>
         <p class="author">Michael Cope</p>
         <div class="divider"></div>
@@ -618,12 +635,18 @@ import '../styles/global.css';
           <p>Their contemporary story is interwoven with a tale of Ugarit, a Bronze Age port in Northern Canaan. It's around 1200 BCE, and on the idyllic slopes of nearby mount Zaphon life continues in the ancient ways. But things change: the droughts and the marauders are coming, and the reign of the old gods, El and Asherah, may soon be over.</p>
         </div>
         <div class="buy-block">
-          <span class="price">R400</span>
-          <span class="price-label">Paperback</span>
-          <a href="mailto:order@example.com?subject=Order: The Fall of Ugarit" class="buy-btn">Order Now</a>
+          <img src="/assets/crow-white.png" alt="" class="buy-decoration" />
+          <a href="mailto:order@example.com?subject=Order: The Fall of Ugarit" class="buy-option">
+            <span class="buy-option-text">Order Paperback</span>
+            <span class="buy-option-price">R400</span>
+            <svg class="buy-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
+          </a>
+          <div class="buy-option disabled">
+            <span class="buy-option-text">E-book</span>
+            <span class="buy-option-soon">Coming soon</span>
+          </div>
+          <p class="pub-info">Vanity Press, 2025</p>
         </div>
-        <p class="pub-info">Vanity Press, 2025</p>
-        <p class="ebook-notice">E-book coming soon</p>
         </section>
 
       <section class="extracts-section">
@@ -633,17 +656,17 @@ import '../styles/global.css';
           <div class="extract-item">
             <p class="extract-label">False Bay, 202?</p>
             <div class="extract-text">
-              <p>The bowl would fit well in my hand, but I leave it on the table. It is a soup bowl, big enough to hold a decent serving of soup. It's made of white ceramic, and I know without having to look that on the underside of the bowl are the words 'Made in China' impressed into the clay before firing. The bowl has only one small chip on the rim, but, seen in the light from a high window, its white surface is crazed with a multitude of fine scratches. It has seen many meals, been washed many times.</p>
-              <p>Since I'm here with my bowl, please allow me to introduce myself. My name is Eliot, and I am the omniscient narrator of this text, as well as a character in it – the protagonist, you might say, the first person.</p>
+              <p>The bowl would fit well in my hand, but I leave it on the table. It is a soup bowl, big enough to hold a decent serving of soup. It's made of white ceramic, and I know without having to look that on the underside of the bowl are the words 'Made in China' impressed into the clay before firing. The bowl has only one small chip on the rim, but, seen in the light from a high window, its white surface is crazed with a multitude of fine scratches. It has seen many meals, been washed many times. It is a modest bowl, without any pretension to decoration or style. It is to hold food and no more. Since I'm here with my bowl, please allow me to introduce myself.</p>
+              <p>My name is Eliot, and I am the omniscient narrator of this text, as well as a character in it – the protagonist, you might say, the first person. To look at, I'm an old man, conservatively dressed in casual clothing that's somewhat worn. I am of medium weight and medium fitness for a man of my age. The skin of my face is blotchy, wrinkled, and coarsened with keratoses. My hairline has receded over the top of my skull to the back, where thin grey hair takes over. I shave my chin and jowls every morning, but they are bristly by the evening. My hands are slightly arthritic, my breath and body odour are those of an old man. My face is not all that dissimilar to the face of Michelangelo's Supreme Being in the Sistine Chapel – though my nose is a bit more hooked, my skin a touch darker, my wrinkles deeper, and I do not currently have a beard, a moustache or long hair. I have been told that I have a Levantine look.</p>
               <p>Since I had a stroke a year and a half ago I have known that I am the one true creator God, incarnated in the body of someone who would otherwise have died right there. I am single, a pensioner with a very modest pension, and at the same time I am God Almighty in the body of a man. That's what I really mean when I say that I'm the omniscient narrator. I'm not kidding you and I'm not a crazy deluded old man.</p>
             </div>
           </div>
           <div class="extract-item">
             <p class="extract-label">Ugarit, 12?? BCE</p>
             <div class="extract-text">
-              <p>I pitched my tent on the mountainside, on a level area not far from the stream, above and to the east of the Grove. With the front of the tent rolled up, I had a view of the entire flank of the mountain down to the foothills and beyond to some flat land then the sea, which dissolved into white mist on the western horizon.</p>
-              <p>South of my camp a stream had cut a tree-lined valley into the mountain slope. At the heart of the trees there was a little waterfall, hardly more than a trickle, and such was the disposition of the stones and the small cavern that backs the fall, that at certain seasons the rushing or dripping water made sounds like words, or like an almost heard conversation.</p>
-              <p>Only women were called to the voices. Generation after generation, they came for the advice, consolation and prophecies that could be heard in the sound of the little waterfall in the laurel grove, that eventually became the Sacred Grove.</p>
+              <p>I pitched my tent on the mountainside, on a level area not far from the stream, above and to the east of the Grove. With the front of the tent rolled up, I had a view of the entire flank of the mountain down to the foothills and beyond to some flat land then the sea, which dissolved into white mist on the western horizon. The City was a distant smudge of smoke. The farmlands with their cultivated fields formed patches on the earth. I could see the curves of the bays where the trade ships anchored, and almost make out the ships themselves. They appeared as tiny lines in my vision, like ants sipping at a drop of spilled honey. Some distant family members had set up homes down there, grand palaces of limestone and mortar, much painted and decorated. At nearly twenty I was too old to be looking after goats, but I preferred to remain up in the heights, above the comings and goings of the people. As the sun went low in the afternoon sky, I imagined that I could discern the island of Alasia to the west, far out on the edge of the sea.</p>
+              <p>South of my camp a stream had cut a tree-lined valley into the mountain slope. Intersecting this valley was a narrow plateau, and where the stream coursed over this flat area it was surrounded by a dense grove of trees, mostly fragrant laurels with a few oaks and holly oaks mixed in. Higher up there were big old cedars and cypresses that scented the air on hot days. Lower down there were olives. As everyone knew, the trees had come to the stream in order to hear its song. At night on their long white roots of legs they had crept closer, to listen to the water's voice as it rushed downhill to the sea. They crowded around the damp verge. More came to form a copse, a stand, a thicket, a grove, a dark and shadowed Grove.</p>
+              <p>At the heart of the trees there was a little waterfall, hardly more than a trickle, and such was the disposition of the stones and the small cavern that backs the fall, that at certain seasons the rushing or dripping water made sounds like words, or like an almost heard conversation. Those who rested near the fall soon heard the voices, and these voices were said to be those of the spirit of the spring itself, as well as of the nymphs and other woodland spirits who attended it.</p>
             </div>
           </div>
         </div>
