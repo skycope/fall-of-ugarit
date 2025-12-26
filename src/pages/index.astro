@@ -14,7 +14,7 @@ import '../styles/global.css';
     * { margin: 0; padding: 0; box-sizing: border-box; }
     html { scroll-behavior: smooth; }
     body {
-      font-family: 'EB Garamond', Georgia, serif;
+      font-family: 'Joanna', 'Joanna MT', 'EB Garamond', Georgia, serif;
       background: #10265f;
       color: #1a1a1a;
       line-height: 1.7;
@@ -74,7 +74,7 @@ import '../styles/global.css';
     }
 
     .hero-content h1 {
-      font-family: 'Crimson Text', Georgia, serif;
+      font-family: 'Joanna', 'Joanna MT', 'Crimson Text', Georgia, serif;
       font-size: 3.5rem;
       font-weight: 600;
       color: #ffb102;
@@ -84,7 +84,7 @@ import '../styles/global.css';
     }
 
     .hero-content .author {
-      font-family: 'EB Garamond', Georgia, serif;
+      font-family: 'Joanna', 'Joanna MT', 'EB Garamond', Georgia, serif;
       font-size: 1.35rem;
       color: #d4dff9;
       margin-bottom: 0.8rem;
@@ -147,13 +147,13 @@ import '../styles/global.css';
     }
 
     .buy-option-text {
-      font-family: 'Crimson Text', Georgia, serif;
+      font-family: 'Joanna', 'Joanna MT', 'Crimson Text', Georgia, serif;
       font-size: 0.92rem;
       color: #ffb102;
     }
 
     .buy-option-price {
-      font-family: 'Crimson Text', Georgia, serif;
+      font-family: 'Joanna', 'Joanna MT', 'Crimson Text', Georgia, serif;
       font-size: 0.92rem;
       color: rgba(255,177,2,0.6);
     }
@@ -187,7 +187,7 @@ import '../styles/global.css';
     }
 
     .buy-option-soon {
-      font-family: 'EB Garamond', Georgia, serif;
+      font-family: 'Joanna', 'Joanna MT', 'EB Garamond', Georgia, serif;
       font-size: 0.85rem;
       color: rgba(255,255,255,0.4);
       font-style: italic;
@@ -293,23 +293,24 @@ import '../styles/global.css';
     .extracts-section {
       background: #0a1a3d;
       min-height: auto;
-      padding: 4rem 3rem;
+      padding: 4rem 3rem 8rem 3rem;
       position: relative;
       overflow: hidden;
     }
 
     .decoration-wheelchair {
       width: 80px;
-      bottom: 5%;
-      left: 18%;
+      bottom: 2.5rem;
+      left: 50%;
+      transform: translateX(-50%);
       opacity: 0.4;
     }
 
     .extracts-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 3rem;
-      max-width: 900px;
+      display: flex;
+      flex-direction: column;
+      gap: 2.5rem;
+      max-width: 100%;
     }
 
     .extract-item {
@@ -317,7 +318,7 @@ import '../styles/global.css';
     }
 
     .extract-label {
-      font-family: 'Crimson Text', Georgia, serif;
+      font-family: 'Joanna', 'Joanna MT', 'Crimson Text', Georgia, serif;
       font-size: 0.85rem;
       text-transform: uppercase;
       letter-spacing: 0.12em;
@@ -342,7 +343,7 @@ import '../styles/global.css';
     }
 
     .section-heading {
-      font-family: 'Crimson Text', Georgia, serif;
+      font-family: 'Joanna', 'Joanna MT', 'Crimson Text', Georgia, serif;
       font-size: 1.6rem;
       font-weight: 600;
       color: #ffb102;
@@ -435,7 +436,7 @@ import '../styles/global.css';
     }
 
     .author-bio h3 {
-      font-family: 'Crimson Text', Georgia, serif;
+      font-family: 'Joanna', 'Joanna MT', 'Crimson Text', Georgia, serif;
       font-size: 1.4rem;
       font-weight: 600;
       margin-bottom: 1.25rem;
@@ -596,11 +597,7 @@ import '../styles/global.css';
         padding: 3rem 2rem;
       }
 
-      .extracts-grid {
-        grid-template-columns: 1fr;
-        gap: 2.5rem;
-      }
-
+      
       .author-photo {
         width: 100px;
         height: 100px;
@@ -671,7 +668,7 @@ import '../styles/global.css';
 
       <section class="extracts-section">
         <img src="/assets/wheelchair-white.png" alt="" class="decoration decoration-wheelchair" />
-        <h2 class="section-heading">Read an Extract</h2>
+        <h2 class="section-heading">From the Book</h2>
         <div class="extracts-grid">
           <div class="extract-item">
             <p class="extract-label">False Bay, 202?</p>
@@ -696,7 +693,7 @@ import '../styles/global.css';
         <img src="/assets/shells-white.png" alt="" class="decoration decoration-shells" />
         <div class="praise-grid">
           <div class="praise-item">
-            <blockquote>Cope weaves a magical and transporting story that seems to see everything. This is pared down work, lucid and calm.</blockquote>
+            <blockquote>"Cope weaves a magical and transporting story that seems to see everything. This is pared down work, lucid and calm."</blockquote>
             <div class="praise-attribution">
               <p class="name">Karin Schimke</p>
               <p class="title">poet, critic, essayist</p>
@@ -704,7 +701,7 @@ import '../styles/global.css';
             </div>
           </div>
           <div class="praise-item">
-            <blockquote>An enchanting love story: rich, numinous and splendidly far-reaching.</blockquote>
+            <blockquote>"An enchanting love story: rich, numinous and splendidly far-reaching."</blockquote>
             <div class="praise-attribution">
               <p class="name">Finuala Dowling</p>
               <p class="title">poet and novelist</p>
