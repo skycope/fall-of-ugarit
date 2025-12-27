@@ -75,8 +75,8 @@ import '../styles/global.css';
       padding: 0.7rem 0.9rem;
       font-family: inherit;
       font-size: 1rem;
-      background: rgba(255,255,255,0.1);
-      border: 1px solid rgba(255,255,255,0.2);
+      background: #1a3470;
+      border: 1px solid rgba(255,255,255,0.25);
       border-radius: 4px;
       color: #fff;
       transition: border-color 0.2s;
@@ -85,14 +85,19 @@ import '../styles/global.css';
     input:focus, select:focus {
       outline: none;
       border-color: #ffb102;
+      background: #1e3d7a;
     }
 
     input::placeholder {
       color: rgba(255,255,255,0.4);
     }
 
+    select {
+      cursor: pointer;
+    }
+
     select option {
-      background: #10265f;
+      background: #1a3470;
       color: #fff;
     }
 

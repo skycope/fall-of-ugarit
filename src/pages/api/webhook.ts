@@ -33,6 +33,7 @@ export const POST: APIRoute = async ({ request }) => {
     // Send confirmation email to customer
     await resend.emails.send({
       from: 'The Fall of Ugarit <orders@fallofugarit.com>',
+      replyTo: 'mcope@mweb.co.za',
       to: email,
       subject: 'Order Confirmation - The Fall of Ugarit',
       html: `
