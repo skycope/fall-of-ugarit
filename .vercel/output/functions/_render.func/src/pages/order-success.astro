@@ -1,0 +1,113 @@
+---
+import '../styles/global.css';
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Order Complete | The Fall of Ugarit</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+  <style>
+    @font-face {
+      font-family: 'Joanna';
+      src: url('/fonts/joanna-regular.otf') format('opentype');
+      font-weight: normal;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Joanna', 'Joanna MT', 'EB Garamond', Georgia, serif;
+      background: #10265f;
+      color: #fff;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 480px;
+      padding: 3rem 1.5rem;
+      text-align: center;
+    }
+
+    .checkmark {
+      width: 80px;
+      height: 80px;
+      border: 3px solid #ffb102;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 2rem;
+    }
+
+    .checkmark svg {
+      width: 40px;
+      height: 40px;
+      stroke: #ffb102;
+    }
+
+    h1 {
+      font-family: 'Joanna', 'Joanna MT', 'Crimson Text', Georgia, serif;
+      font-size: 2rem;
+      color: #ffb102;
+      margin-bottom: 1rem;
+    }
+
+    p {
+      color: rgba(255,255,255,0.8);
+      margin-bottom: 1rem;
+    }
+
+    .note {
+      background: rgba(255,255,255,0.1);
+      border-radius: 6px;
+      padding: 1.25rem;
+      margin: 2rem 0;
+      font-size: 0.95rem;
+    }
+
+    .back-link {
+      display: inline-block;
+      color: #ffb102;
+      text-decoration: none;
+      padding: 0.75rem 1.5rem;
+      border: 1px solid #ffb102;
+      border-radius: 4px;
+      transition: all 0.2s;
+    }
+
+    .back-link:hover {
+      background: #ffb102;
+      color: #10265f;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="checkmark">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="20 6 9 17 4 12"></polyline>
+      </svg>
+    </div>
+
+    <h1>Thank You!</h1>
+    <p>Your order for <em>The Fall of Ugarit</em> has been received.</p>
+
+    <div class="note">
+      <p>A confirmation email is on its way to your inbox.</p>
+      <p>If you chose delivery, expect your book within 5-7 working days. For collection, we'll be in touch shortly.</p>
+    </div>
+
+    <a href="/" class="back-link">Back to Home</a>
+  </div>
+</body>
+</html>
