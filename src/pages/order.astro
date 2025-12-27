@@ -92,6 +92,19 @@ import '../styles/global.css';
       color: rgba(255,255,255,0.4);
     }
 
+    input:invalid:not(:placeholder-shown) {
+      border-color: #f87171;
+    }
+
+    input:valid:not(:placeholder-shown) {
+      border-color: rgba(255,177,2,0.5);
+    }
+
+    .required-star {
+      color: #ffb102;
+      margin-left: 2px;
+    }
+
     select {
       cursor: pointer;
       -webkit-appearance: none;
@@ -242,17 +255,17 @@ import '../styles/global.css';
 
     <form id="orderForm">
       <div class="form-group">
-        <label for="name">Full Name</label>
+        <label for="name">Full Name<span class="required-star">*</span></label>
         <input type="text" id="name" name="name" required placeholder="Your name">
       </div>
 
       <div class="form-group">
-        <label for="email">Email</label>
+        <label for="email">Email<span class="required-star">*</span></label>
         <input type="email" id="email" name="email" required placeholder="you@example.com">
       </div>
 
       <div class="form-group">
-        <label for="phone">Phone</label>
+        <label for="phone">Phone<span class="required-star">*</span></label>
         <input type="tel" id="phone" name="phone" required placeholder="082 123 4567">
       </div>
 
@@ -347,9 +360,20 @@ import '../styles/global.css';
       deliveryRow.style.display = delivery ? 'flex' : 'none';
     }
 
+    const streetInput = document.getElementById('street');
+    const cityInput = document.getElementById('city');
+    const postalInput = document.getElementById('postalCode');
+
+    function toggleAddressRequired(required) {
+      streetInput.required = required;
+      cityInput.required = required;
+      postalInput.required = required;
+    }
+
     quantitySelect.addEventListener('change', updateSummary);
     deliveryCheckbox.addEventListener('change', () => {
       addressFields.classList.toggle('visible', deliveryCheckbox.checked);
+      toggleAddressRequired(deliveryCheckbox.checked);
       updateSummary();
     });
 
