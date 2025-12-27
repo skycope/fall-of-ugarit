@@ -55,7 +55,7 @@ export const POST: APIRoute = async ({ request }) => {
       body: JSON.stringify({
         amount: totalCents,
         currency: 'ZAR',
-        successUrl: `${new URL(request.url).origin}/order-success?session={checkoutId}`,
+        successUrl: `${new URL(request.url).origin}/order-success`,
         cancelUrl: `${new URL(request.url).origin}/order#cancelled`,
         failureUrl: `${new URL(request.url).origin}/order#failed`,
         metadata: {
