@@ -495,8 +495,40 @@ import '../styles/global.css';
     .footer-section {
       background: #091a3d;
       min-height: auto;
-      padding: 2rem 3rem;
+      padding: 3rem 3rem 2rem;
       justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+
+    .footer-order {
+      display: inline-block;
+      color: #ffb102;
+      text-decoration: none;
+      font-size: 1.1rem;
+      letter-spacing: 0.04em;
+      margin-bottom: 1.5rem;
+      padding: 0.6rem 1.5rem;
+      border: 1px solid rgba(255, 177, 2, 0.4);
+      border-radius: 3px;
+      transition: all 0.2s ease;
+    }
+
+    .footer-order:hover {
+      background: rgba(255, 177, 2, 0.1);
+      border-color: rgba(255, 177, 2, 0.7);
+    }
+
+    .footer-order svg {
+      width: 14px;
+      height: 14px;
+      margin-left: 0.5rem;
+      vertical-align: middle;
+      transition: transform 0.2s ease;
+    }
+
+    .footer-order:hover svg {
+      transform: translate(2px, -2px);
     }
 
     .footer-section p {
@@ -637,6 +669,10 @@ import '../styles/global.css';
       .decoration {
         display: none;
       }
+
+      .buy-decoration {
+        display: none;
+      }
     }
   </style>
 </head>
@@ -756,6 +792,10 @@ import '../styles/global.css';
       </section>
 
       <section class="footer-section">
+        <a href="/order" class="footer-order">
+          Order a Copy
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
+        </a>
         <p>© 2025 Michael Cope</p>
       </section>
     </div>
@@ -1138,31 +1178,57 @@ import '../styles/global.css';
       const sensitivityX = isMobile ? 0.01 : 0.004;
 
       canvas.style.cursor = 'grab';
-      canvas.style.touchAction = 'none'; // Prevent scroll interference
+      // Allow touch scrolling by default - only prevent when actively dragging horizontally
+      canvas.style.touchAction = isMobile ? 'pan-y' : 'none';
+
+      let isPointerDown = false;
+      let startX = 0, startY = 0;
+      let hasDragged = false;
+      const dragThreshold = 10; // Pixels of movement before considering it a drag
 
       canvas.addEventListener('pointerdown', (e) => {
-        isDragging = true;
-        canvas.style.cursor = 'grabbing';
+        isPointerDown = true;
+        startX = e.clientX;
+        startY = e.clientY;
         prevX = e.clientX;
         prevY = e.clientY;
+        hasDragged = false;
         velocityY = 0;
-        e.preventDefault();
+        // Don't preventDefault here - allow scroll to work initially
       });
 
       window.addEventListener('pointermove', (e) => {
-        if (!isDragging) return;
+        if (!isPointerDown) return;
+        
         const dx = e.clientX - prevX;
         const dy = e.clientY - prevY;
-        targetRotY += dx * sensitivityY;
-        targetRotX += dy * sensitivityX;
-        targetRotX = Math.max(-0.8, Math.min(0.8, targetRotX)); // Allow more vertical tilt
-        velocityY = dx * sensitivityY;
+        const totalDx = Math.abs(e.clientX - startX);
+        const totalDy = Math.abs(e.clientY - startY);
+        
+        // Only capture as drag if horizontal movement exceeds threshold
+        // This allows vertical scrolling to work on mobile
+        if (!hasDragged && totalDx > dragThreshold && totalDx > totalDy) {
+          hasDragged = true;
+          isDragging = true;
+          canvas.style.cursor = 'grabbing';
+        }
+        
+        if (isDragging) {
+          targetRotY += dx * sensitivityY;
+          targetRotX += dy * sensitivityX;
+          targetRotX = Math.max(-0.8, Math.min(0.8, targetRotX));
+          velocityY = dx * sensitivityY;
+          if (isMobile) e.preventDefault(); // Only prevent default when actively rotating
+        }
+        
         prevX = e.clientX;
         prevY = e.clientY;
-      });
+      }, { passive: false });
 
       window.addEventListener('pointerup', () => {
+        isPointerDown = false;
         isDragging = false;
+        hasDragged = false;
         canvas.style.cursor = 'grab';
       });
 
