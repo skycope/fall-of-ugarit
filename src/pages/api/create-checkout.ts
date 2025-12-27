@@ -5,6 +5,15 @@ const DELIVERY_FEE = 100; // R100 flat delivery
 
 export const POST: APIRoute = async ({ request }) => {
   try {
+    const yocoKey = import.meta.env.YOCO_SECRET_KEY;
+    if (!yocoKey) {
+      console.error('YOCO_SECRET_KEY not configured');
+      return new Response(JSON.stringify({ error: 'Payment not configured' }), {
+        status: 500,
+        headers: { 'Content-Type': 'application/json' }
+      });
+    }
+
     const body = await request.json();
     const {
       name,
@@ -41,7 +50,7 @@ export const POST: APIRoute = async ({ request }) => {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${import.meta.env.YOCO_SECRET_KEY}`
+        'Authorization': `Bearer ${yocoKey}`
       },
       body: JSON.stringify({
         amount: totalCents,

@@ -1,7 +1,7 @@
 import { Resend } from 'resend';
 export { renderers } from '../../renderers.mjs';
 
-const resend = new Resend(undefined                              );
+const resend = new Resend("re_Rr2PTsQg_QG75J5huHtaA7vTJ7EwhNSb3");
 const POST = async ({ request }) => {
   try {
     const body = await request.json();
@@ -51,7 +51,8 @@ ${parsedAddress?.city}, ${parsedAddress?.postalCode}` : "\nCollection (Cape Town
         <p><em>Expected delivery: 5-7 working days</em></p>
         ` : `
         <h3>Collection</h3>
-        <p>We'll be in touch shortly to arrange collection in Cape Town.</p>
+        <p>5 St. Helier's Road, Muizenberg, 7945, Cape Town</p>
+        <p><em>We'll be in touch to arrange a time.</em></p>
         `}
 
         <p>If you have any questions, please reply to this email.</p>
@@ -61,7 +62,7 @@ ${parsedAddress?.city}, ${parsedAddress?.postalCode}` : "\nCollection (Cape Town
     });
     await resend.emails.send({
       from: "Orders <orders@fallofugarit.com>",
-      to: undefined                             || "order@fallofugarit.com",
+      to: "mcope@mweb.co.za",
       subject: `New Order: ${quantity}x The Fall of Ugarit - R${totalRands}`,
       html: `
         <h2>New Order Received!</h2>
@@ -89,7 +90,7 @@ ${parsedAddress?.city}, ${parsedAddress?.postalCode}` : "\nCollection (Cape Town
         </p>
         ` : `
         <h3>Collection</h3>
-        <p>Customer will collect in Cape Town. Please contact to arrange.</p>
+        <p>Customer will collect from 5 St. Helier's Road, Muizenberg.</p>
         `}
 
         <p><strong>Payment ID:</strong> ${payment.id}</p>

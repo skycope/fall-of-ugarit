@@ -113,6 +113,26 @@ import '../styles/global.css';
       cursor: pointer;
     }
 
+    .collection-info {
+      background: rgba(255,177,2,0.1);
+      border: 1px solid rgba(255,177,2,0.3);
+      border-radius: 6px;
+      padding: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .collection-info h3 {
+      font-size: 0.9rem;
+      color: #ffb102;
+      margin-bottom: 0.3rem;
+    }
+
+    .collection-info p {
+      font-size: 0.95rem;
+      color: rgba(255,255,255,0.8);
+      margin: 0;
+    }
+
     .address-fields {
       display: none;
       padding: 1rem;
@@ -235,9 +255,14 @@ import '../styles/global.css';
         </select>
       </div>
 
+      <div class="collection-info">
+        <h3>Collection</h3>
+        <p>5 St. Helier's Road, Muizenberg, 7945, Cape Town</p>
+      </div>
+
       <div class="checkbox-group">
         <input type="checkbox" id="delivery" name="delivery">
-        <label for="delivery">Deliver to me (+R100)</label>
+        <label for="delivery">Deliver to me instead (+R100, South Africa only)</label>
       </div>
 
       <div id="addressFields" class="address-fields">

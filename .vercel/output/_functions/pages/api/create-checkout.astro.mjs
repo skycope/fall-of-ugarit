@@ -4,6 +4,8 @@ const BOOK_PRICE = 400;
 const DELIVERY_FEE = 100;
 const POST = async ({ request }) => {
   try {
+    const yocoKey = "sk_test_7e081470Q4og4oD6ec84e0489a57";
+    if (!yocoKey) ;
     const body = await request.json();
     const {
       name,
@@ -33,7 +35,7 @@ const POST = async ({ request }) => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${undefined                               }`
+        "Authorization": `Bearer ${yocoKey}`
       },
       body: JSON.stringify({
         amount: totalCents,
