@@ -57,7 +57,8 @@ export const POST: APIRoute = async ({ request }) => {
         <p><em>Expected delivery: 5-7 working days</em></p>
         ` : `
         <h3>Collection</h3>
-        <p>We'll be in touch shortly to arrange collection in Cape Town.</p>
+        <p>5 St. Helier's Road, Muizenberg, 7945, Cape Town</p>
+        <p><em>We'll be in touch to arrange a time.</em></p>
         `}
 
         <p>If you have any questions, please reply to this email.</p>
@@ -97,7 +98,7 @@ export const POST: APIRoute = async ({ request }) => {
         </p>
         ` : `
         <h3>Collection</h3>
-        <p>Customer will collect in Cape Town. Please contact to arrange.</p>
+        <p>Customer will collect from 5 St. Helier's Road, Muizenberg.</p>
         `}
 
         <p><strong>Payment ID:</strong> ${payment.id}</p>
